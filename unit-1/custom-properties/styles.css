@@ -1,0 +1,179 @@
+/* ========================================
+   TOKENS
+   Define your design decisions here.
+   ======================================== */
+:root {
+    /* Colors */
+    --color-primary: #1a1a1a;
+    --color-accent: #d4af37;
+    --color-bg: #ffffff;
+    --color-text: #2d2d2d;
+    --color-text-muted: #666666;
+    
+    /* Spacing */
+    --space-sm: 0.5rem;
+    --space-md: 1.5rem;
+    --space-lg: 3rem;
+
+    /* Typography */
+    --font-heading: 'Lora', serif;
+    --font-body: 'Montserrat', sans-serif;
+    --base-size: 1rem;
+
+    /* Borders */
+    --radius-main: 0px;
+    --radius-tag: 4px;
+}
+
+/* ========================================
+   RESET
+   ======================================== */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ========================================
+   BASE STYLES
+   ======================================== */
+body {
+    font-family: var(--font-body);
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    line-height: 1.6;
+    padding: clamp(1rem, 5vw, 3rem);
+
+    a {
+        color: var(--color-accent);
+        text-decoration: none;
+        transition: color 0.2s ease;
+
+        &:hover {
+            color: var(--color-primary);
+            text-decoration: underline;
+        }
+    }
+}
+
+/* ========================================
+   NAVIGATION
+   ======================================== */
+.site-nav {
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid #eee;
+}
+
+/* ========================================
+   BOARD HEADER
+   ======================================== */
+.board-header {
+    text-align: center;
+    margin-bottom: var(--space-lg);
+
+    h1 {
+        font-family: var(--font-heading);
+        font-size: clamp(2rem, 8vw, 4rem);
+        line-height: 1.1;
+        margin-bottom: var(--space-sm);
+    }
+
+    p {
+        color: var(--color-text-muted);
+        font-style: italic;
+    }
+}
+
+/* ========================================
+   CARD GROUP
+   ======================================== */
+.card-group {
+    margin-bottom: var(--space-lg);
+
+    h2 {
+        font-family: var(--font-heading);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        border-left: 5px solid var(--color-accent);
+        padding-left: var(--space-sm);
+        margin-bottom: var(--space-md);
+    }
+}
+
+/* ========================================
+   CARDS GRID
+   ======================================== */
+.cards {
+    display: grid;
+    gap: calc(var(--space-md) * 1.5);
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+/* ========================================
+   INDIVIDUAL CARD
+   ======================================== */
+.card {
+    background-color: var(--card-bg-custom, #fafafa);
+    padding: var(--space-md);
+    border: 2px solid var(--color-primary);
+    border-radius: var(--radius-main);
+    box-shadow: 8px 8px 0px var(--color-accent);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+
+    .card-tag {
+        align-self: flex-start;
+        font-size: 0.7rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        padding: 4px 8px;
+        background: var(--color-primary);
+        color: white;
+        border-radius: var(--radius-tag);
+    }
+
+    h3 {
+        font-family: var(--font-heading);
+        font-size: 1.5rem;
+    }
+
+    p {
+        font-size: 0.95rem;
+        flex-grow: 1;
+    }
+
+    .card-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: var(--space-sm);
+        padding-top: var(--space-sm);
+        border-top: 1px solid #ddd;
+
+        span {
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+        }
+
+        a {
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+    }
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+.board-footer {
+    text-align: center;
+    padding: var(--space-lg) 0;
+    margin-top: var(--space-lg);
+    border-top: 2px solid var(--color-primary);
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+}
