@@ -1,5 +1,5 @@
-@import "./tokens/breakpoints.css";
-@import "./components/cards.css";
+@import "/css/tokens/breakpoints.css";
+@import "/css/components/cards.css";
 
 *,
 *::before,
