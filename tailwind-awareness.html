@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tailwind CSS Awareness Study | James Wright</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,700;1,400&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dist/styles.css">
+    <style>
+        pre {
+            background-color: #f4f4f4;
+            border-left: 3px solid var(--color-secondary);
+            padding: var(--space-md);
+            overflow-x: auto;
+            margin: var(--space-md) 0;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+        code { font-family: monospace; color: #c7254e; background-color: #f9f2f4; padding: 2px 4px; border-radius: 2px; }
+        pre code { color: inherit; background-color: transparent; padding: 0; }
+        ul { margin-left: var(--space-lg); margin-bottom: var(--space-md); }
+        li { margin-bottom: var(--space-xs); }
+    </style>
+</head>
+<body>
+
+    <header style="margin-bottom: var(--space-xl); border-bottom: var(--border-thick); padding-bottom: var(--space-md);">
+        <h1>Choose Topic: Tailwind Awareness</h1>
+        <p style="font-family: var(--font-heading); font-style: italic; color: var(--color-text-muted); font-size: 1.2rem;">
+            WDD 331R &bull; Advanced CSS Framework Evaluation
+        </p>
+        <a href="index.html" style="display: inline-block; margin-top: var(--space-sm); font-size: 0.9rem;">&larr; Back to Portal Home</a>
+    </header>
+
+    <main>
+        <div class="assignment-grid">
+
+            <section class="project-card">
+                <div>
+                    <h2 class="project-card__title">Framework Philosophy</h2>
+                    <p class="project-card__desc">
+                        Tailwind CSS is a utility-first framework that takes a fundamentally different approach to styling than traditional CSS or component frameworks like Bootstrap. Instead of providing pre-built components, Tailwind gives you a massive library of single-purpose utility classes like <code>flex</code>, <code>p-4</code>, <code>text-center</code>, and <code>bg-blue-500</code>. You compose these classes directly in your HTML to build your design. 
+                    </p>
+                    <p class="project-card__desc">
+                        Tailwind is currently at version 4 (latest release: v4.2.4), which was a ground-up rewrite built on modern CSS features like cascade layers, <code>@property</code>, and <code>color-mix()</code>. Like Bootstrap Awareness, this is about understanding and evaluation, not adoption.
+                    </p>
+                </div>
+            </section>
+
+            <section class="project-card">
+                <div>
+                    <h2 class="project-card__title">The Utility-First Philosophy</h2>
+                    <p class="project-card__desc">
+                        In traditional CSS, you create a class name that describes what an element is (like <code>.card</code>), then write properties in a stylesheet. In Tailwind, you skip naming and apply pre-defined utility classes directly to markup:
+                    </p>
+<pre><code>&lt;!-- Traditional CSS approach --&gt;
+&lt;button class="primary-btn"&gt;Save&lt;/button&gt;
+
+&lt;!-- Tailwind approach --&gt;
+&lt;button class="bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700"&gt;
+    Save
+&lt;/button&gt;</code></pre>
+                    <p class="project-card__desc">
+                        Supporters argue this eliminates naming choices and specificity battles. Critics argue it creates cluttered HTML markup and makes structural refactoring harder.
+                    </p>
+                </div>
+            </section>
+
+            <section class="project-card">
+                <div>
+                    <h2 class="project-card__title">Tailwind vs. Bootstrap</h2>
+                    <p class="project-card__desc">
+                        Bootstrap gives you high-level component classes like <code>.btn</code> and <code>.navbar</code> that come with a complete, opinionated design style. Tailwind gives you low-level utility classes that have no design opinions. 
+                    </p>
+                    <p class="project-card__desc">
+                        Bootstrap says <em>"here is a button."</em> Tailwind says <em>"here are the building blocks; assemble your own button."</em> Tailwind sites look less generic but require significantly more design decisions up front.
+                    </p>
+                </div>
+            </section>
+
+            <section class="project-card">
+                <div>
+                    <h2 class="project-card__title">The @apply Directive & Spec Story</h2>
+                    <p class="project-card__desc">
+                        To resolve long strings of repeated utilities, Tailwind's <code>@apply</code> directive lets you extract utility sets into a traditional CSS class rule:
+                    </p>
+<pre><code>.primary-btn {
+    @apply bg-blue-600 text-white font-bold py-2 px-4 rounded;
+}
+.primary-btn:hover {
+    @apply bg-blue-700;
+}</code></pre>
+                    <p class="project-card__desc">
+                        Historically, Tab Atkins authored an official <code>CSS @apply Rule</code> specification to make this native. However, it was abandoned because interactions with the cascade created fundamental performance and logic flaws. The CSSWG is now building a cleaner <code>CSS Mixins and Functions Proposal</code> instead.
+                    </p>
+                </div>
+            </section>
+
+            <section class="project-card">
+                <div>
+                    <h2 class="project-card__title">What Version 4 Changed</h2>
+                    <p class="project-card__desc">
+                        Tailwind v4 is a complete rewrite highlighting modern platform adoption:
+                    </p>
+                    <ul class="project-card__desc">
+                        <li><strong>CSS-First Config:</strong> Uses the <code>@theme</code> directive directly in stylesheets rather than a JavaScript config file.</li>
+                        <li><strong>Cascade Layers:</strong> Organizes compiler outputs into native <code>@layer theme, base, components, utilities</code> stacks.</li>
+                        <li><strong>OKLCH Colors:</strong> Shifts its default color spaces into native, perceptually uniform color profiles.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="project-card">
+                <div>
+                    <h2 class="project-card__title">Honest Architecture Tradeoffs</h2>
+                    <p class="project-card__desc"><strong>Strengths:</strong> Eliminates inconsistent class naming definitions, keeps styles co-located near markup, and outputs tiny optimized production files by auto-removing unused utilities.</p>
+                    <p class="project-card__desc"><strong>Costs:</strong> Markup becomes dense and difficult to scan, requires an active build tool compilation step to generate CSS, and requires learning an entirely new framework vocabulary on top of native CSS rules.</p>
+                </div>
+            </section>
+
+        </div>
+
+        <section style="margin-top: var(--space-xl); padding: var(--space-lg); border: var(--border-thick);">
+            <h2>Learning Resources & Video Checklist</h2>
+            <p class="project-card__desc">To prepare teaching videos or review documentation, reference these links:</p>
+            <ul class="project-card__desc">
+                <li><a href="https://tailwindcss.com" target="_blank">Tailwind Docs: Utility-First Fundamentals</a></li>
+                <li><a href="https://play.tailwindcss.com" target="_blank">Tailwind Play Browser Playground</a></li>
+                <li><a href="https://tailwindcss.com/blog/v4-0" target="_blank">Tailwind v4.0 Announcement Notes</a></li>
+            </ul>
+        </section>
+    </main>
+
+    <footer style="margin-top: var(--space-xl); padding-top: var(--space-md); border-top: var(--border-thin); font-size: 0.85rem; color: var(--color-text-muted);">
+        <p>&copy; 2026 James Wright &bull; WDD 331R</p>
+    </footer>
+
+</body>
+</html>

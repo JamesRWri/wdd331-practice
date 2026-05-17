@@ -1,0 +1,26 @@
+{
+  "name": "wdd331-practice",
+  "version": "1.0.0",
+  "description": "**Student:** James Wright\r **Semester:** Spring 2026\r **Live Site:** [View Site](https://jamesrwri.github.io/wdd331-practice/)\r ## About\r This repository is my Practice Site for WDD 331R: Advanced CSS.\r Each week I add new pages and styles as I work through the course\r assignments. The site deploys automatically to GitHub Pages on\r every push to main.\r ## Pages\r - [Home](index.html)\r - [Custom Properties and Nesting](unit-1/custom-properties/index.html)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "lightningcss --bundle --minify --targets \">= 0.25%\" css/main.css -o dist/styles.css",
+    "watch": "lightningcss --bundle --watch css/main.css -o dist/styles.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JamesRWri/wdd331-practice.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/JamesRWri/wdd331-practice/issues"
+  },
+  "homepage": "https://github.com/JamesRWri/wdd331-practice#readme",
+  "devDependencies": {
+    "lightningcss-cli": "^1.32.0"
+  }
+}

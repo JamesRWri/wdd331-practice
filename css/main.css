@@ -1,81 +1,8 @@
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-:root {
-    --color-bg: #f4f6f8;
-    --color-text: #1e293b;
-    --color-primary: #006eb6;
-    --color-primary-hover: #004f7f;
-    --space-sm: 0.5rem;
-    --space-md: 1rem;
-    --space-lg: 2rem;
-    --font-body: system-ui, -apple-system, sans-serif;
-}
-body {
-    font-family: var(--font-body);
-    color: var(--color-text);
-    background-color: var(--color-bg);
-    line-height: 1.6;
-    padding: var(--space-lg);
-}
-a {
-    color: var(--color-primary);
-}
-a:hover {
-    color: var(--color-primary-hover);
-}
+@layer tokens, base, layout, components, utilities;
 
-main {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-md);
-    margin-top: var(--space-md);
-}
-
-nav, 
-.about-section, 
-.purpose-section {
-    background-color: #ffffff; 
-    border: 1px solid #e2e8f0; 
-    border-radius: 8px;        
-    padding: var(--space-lg);   
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 
-                0 2px 4px -1px rgba(0, 0, 0, 0.03); 
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-nav:hover, 
-.about-section:hover, 
-.purpose-section:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-}
-
-nav h2, 
-section h2 {
-    color: var(--color-primary);
-    margin-bottom: var(--space-sm);
-    font-size: 1.5rem;
-    border-bottom: 2px solid var(--color-bg);
-    padding-bottom: var(--space-sm);
-}
-
-nav ul {
-    list-style-type: none;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-}
-
-nav a {
-    text-decoration: none;
-    font-weight: 500;
-}
-
-nav a:hover {
-    text-decoration: underline;
-}
+@import "tokens/colors.css";
+@import "tokens/variables.css";
+@import "base/reset.css";
+@import "base/elements.css";
+@import "components/cards.css";
+@import "utilities/utilities.css";

@@ -3,42 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/main.css">
-    <title>James Wright - Practice Site</title>
+    <title>James Wright - WDD 331R Practice Site</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,700;1,400&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dist/styles.css">
 </head>
 <body>
 
-    <header>
+    <header style="margin-bottom: var(--space-xl); padding-bottom: var(--space-md); border-bottom: var(--border-thick);">
         <h1>James Wright</h1>
+        <p style="font-family: var(--font-heading); font-style: italic; color: var(--color-text-muted); font-size: 1.2rem; margin-top: var(--space-xs);">
+            WDD 331R &bull; Advanced CSS Course Portfolio
+        </p>
     </header>
 
-    <nav>
-        <h2>Assignments</h2>
-        <ul>
-            <li>
-                <a href="unit-1/custom-properties/index.html">Custom Properties and Nesting</a>
-            </li>
-            <li>
-                <a href="unit-2/layered-components/index.html">Layered Components</a>
-            </li>
-        </ul>
-    </nav>
-
     <main>
-        <section class="about-section">
-            <h2>About Me</h2>
-            <p>My name is James Wright. I am from Long Island, NY, and this is my second to last semester. 
-               I am taking this class because my minor is in web development and I need this class to graduate. 
-               I have been working at a marketing agency for about 16 months on their web dev team. 
-               I help mostly local service businesses with their sites, assist with rebuilds, and make designs come to life. 
-               I really enjoy my job. My major is business management with an emphasis in marketing.</p>
+        <section class="assignment-grid">
+            
+            <article class="project-card">
+                <div>
+                    <h3 class="project-card__title">About Me</h3>
+                    <p class="project-card__desc">
+                        My name is James Wright. I am from Long Island, NY, and this is my second to last semester. 
+                        I am taking this class because my minor is in web development and I need this class to graduate. 
+                        I have been working at a marketing agency for about 16 months on their web dev team, helping 
+                        local service businesses with their sites, assisting with rebuilds, and making designs come to life.
+                    </p>
+                </div>
+            </article>
+
+            <article class="project-card">
+                <div>
+                    <h3 class="project-card__title">Purpose of this Site</h3>
+                    <p class="project-card__desc">
+                        The purpose of this site is to help me refine my advanced CSS skills, practice modern layout 
+                        techniques, master design implementations, and build out a token-first pipeline using Lightning CSS.
+                    </p>
+                </div>
+            </article>
+
         </section>
 
-        <section class="purpose-section">
-            <h2>Purpose of this Site</h2>
-            <p>The purpose of this site is to help me refine my advanced CSS skills, practice modern layout techniques, and master design implementations.</p>
+        <section style="margin-top: var(--space-xl);">
+            <h2>Completed Course Assignments</h2>
+            
+            <div class="assignment-grid">
+                
+                <article class="project-card">
+                    <div>
+                        <h3 class="project-card__title">Unit 1</h3>
+                        <p class="project-card__desc">Custom Properties and Nesting practices implementing decoupled theme declarations.</p>
+                    </div>
+                    <a class="project-card__link" href="unit-1/custom-properties/index.html">Open Project &rarr;</a>
+                </article>
+
+                <article class="project-card">
+                    <div>
+                        <h3 class="project-card__title">Unit 2</h3>
+                        <p class="project-card__desc">Layered Components engineering, establishing a strict CSS baseline structural architecture.</p>
+                    </div>
+                    <a class="project-card__link" href="unit-2/layered-components/index.html">Open Project &rarr;</a>
+                </article>
+
+                <article class="project-card">
+                    <div>
+                        <h3 class="project-card__title">Tailwind CSS</h3>
+                        <p class="project-card__desc">An awareness study researching rapid utility-first workflow architectures and implementation profiles.</p>
+                    </div>
+                    <a class="project-card__link" href="tailwind-awareness.html">Open Project &rarr;</a>
+                </article>
+
+                <article class="project-card">
+                    <div>
+                        <h3 class="project-card__title">Custom Media</h3>
+                        <p class="project-card__desc">Abstracting viewport layout magic numbers cleanly into media query specification variables.</p>
+                    </div>
+                    <a class="project-card__link" href="custom-media.html">Open Project &rarr;</a>
+                </article>
+
+            </div>
         </section>
     </main>
+
+    <footer style="margin-top: var(--space-xl); padding-top: var(--space-md); border-top: var(--border-thin); font-size: 0.85rem; color: var(--color-text-muted);">
+        <p>&copy; 2026 James Wright &bull; Styled via shared token system layers.</p>
+    </footer>
 
 </body>
 </html>
