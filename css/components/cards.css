@@ -1,0 +1,73 @@
+@layer components {
+    .assignment-grid,
+    .cards {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+        margin-top: var(--space-lg);
+    }
+
+    @media (min-width: 768px) {
+        .assignment-grid,
+        .cards {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    .project-card,
+    .card {
+        background-color: var(--color-surface, #ffffff);
+        border: var(--border-thick, 3px solid #081437);
+        border-radius: var(--radius-sharp, 0px);
+        padding: var(--space-lg);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-shadow: var(--shadow-flat, 0 2px 4px rgba(0, 0, 0, 0.05));
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .project-card:hover,
+    .card:hover {
+        transform: translate(-3px, -3px);
+        box-shadow: var(--shadow-flat-hover, 0 8px 16px rgba(8, 20, 55, 0.12));
+    }
+
+    .project-card__title,
+    .card h3 {
+        font-family: var(--font-heading);
+        color: var(--color-dark, #081437);
+        font-size: 1.4rem;
+        margin-top: 0;
+        margin-bottom: var(--space-sm);
+        border-bottom: var(--border-thin, 1px solid #111111);
+        padding-bottom: var(--space-xs);
+    }
+
+\    .project-card__desc,
+    .card p {
+        font-size: 0.95rem;
+        color: var(--color-text-muted, #666666);
+        margin-bottom: var(--space-md);
+    }
+
+    .project-card__link,
+    .card-footer a {
+        display: inline-block;
+        align-self: flex-start;
+        background-color: var(--color-primary, #081437);
+        color: var(--color-light, #ffffff);
+        padding: var(--space-sm) var(--space-md);
+        border: var(--border-thin, 1px solid #111111);
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .project-card__link:hover,
+    .card-footer a:hover {
+        background-color: var(--color-secondary, #8B9C7F);
+        color: var(--color-dark, #111111);
+        text-decoration: none;
+    }
+}

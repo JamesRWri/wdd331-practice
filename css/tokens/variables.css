@@ -1,0 +1,19 @@
+@layer tokens {
+    :root {
+        --font-heading: 'Lora', Georgia, serif;
+        --font-body: 'Montserrat', system-ui, sans-serif;
+        
+        --space-xs: 0.25rem;
+        --space-sm: 0.5rem;
+        --space-md: 1rem;
+        --space-lg: 2rem;
+        --space-xl: 3.5rem;
+
+        --border-thin: 1px solid var(--color-border);
+        --border-thick: 3px solid var(--color-border);
+        --radius-sharp: 0px; 
+
+        --shadow-flat: 4px 4px 0px 0px var(--color-border); 
+        --shadow-flat-hover: 7px 7px 0px 0px var(--color-border);
+    }
+}

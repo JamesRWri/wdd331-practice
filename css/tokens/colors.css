@@ -1,0 +1,14 @@
+@layer tokens {
+    :root {
+        --color-primary: #081437;       /* Prussian Blue */
+        --color-secondary: #8B9C7F;     /* Palm Leaf Accent */
+        --color-dark: #111111;          /* Sharp Contrast Black */
+        --color-light: #ffffff;         /* Crisp White */
+        
+        --color-bg: #fdfdfd;            /* Clean off-white background */
+        --color-surface: #ffffff;       /* Card backgrounds */
+        --color-border: #111111;        /* Thick, modern sharp borders */
+        --color-text-main: #222222;     /* Body text color */
+        --color-text-muted: #555555;    /* Captions and subtext */
+    }
+}

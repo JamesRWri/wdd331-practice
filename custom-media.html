@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Media Breakpoints Study | James Wright</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,700;1,400&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dist/styles.css">
+    <style>
+        pre {
+            background-color: #f4f4f4;
+            border-left: 3px solid var(--color-secondary);
+            padding: var(--space-md);
+            overflow-x: auto;
+            margin: var(--space-md) 0;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+        code { font-family: monospace; color: #c7254e; background-color: #f9f2f4; padding: 2px 4px; border-radius: 2px; }
+        pre code { color: inherit; background-color: transparent; padding: 0; }
+        ul { margin-left: var(--space-lg); margin-bottom: var(--space-md); }
+        li { margin-bottom: var(--space-xs); }
+        .grid-half { display: grid; gap: var(--space-md); grid-template-columns: 1fr; }
+        @media (min-width: 768px) { .grid-half { grid-template-columns: 1fr 1fr; } }
+    </style>
+</head>
+<body>
+
+    <header style="margin-bottom: var(--space-xl); border-bottom: var(--border-thick); padding-bottom: var(--space-md);">
+        <h1>Choose Topic: @custom-media</h1>
+        <p style="font-family: var(--font-heading); font-style: italic; color: var(--color-text-muted); font-size: 1.2rem;">
+            WDD 331R &bull; Media Queries Level 5 Specification & Design Tokens
+        </p>
+        <a href="index.html" style="display: inline-block; margin-top: var(--space-sm); font-size: 0.9rem;">&larr; Back to Portal Home</a>
+    </header>
+
+    <main>
+        <div class="assignment-grid">
+
+            <section class="project-card">
+                <div>
+                    <h2 class="project-card__title">The Problem: Repeated Magic Numbers</h2>
+                    <p class="project-card__desc">
+                        Media queries are one of the most repeated pieces of CSS in any project. A breakpoint like <code>(min-width: 48em)</code> might appear dozens of times across different component stylesheets:
+                    </p>
+<pre><code>/* layout/primary.css */
+@media (min-width: 48em) { .site-grid { grid-template-columns: 1fr 3fr; } }
+
+/* components/card.css */
+@media (min-width: 48em) { .cards { grid-template-columns: repeat(2, 1fr); } }</code></pre>
+                    <p class="project-card__desc">
+                        The value <code>48em</code> is a magic number. Custom properties (<code>var()</code>) cannot help here because CSS does not allow variables inside media query conditions. That is the critical gap <code>@custom-media</code> fills.
+                    </p>
+                </div>
+            </section>
+
+            <section class="project-card">
+                <div>
+                    <h2 class="project-card__title">The Definition & Usage Syntax</h2>
+                    <p class="project-card__desc">
+                        A <code>@custom-media</code> rule defines a named alias for a media query. The name must start with two hyphens, just like a custom token property:
+                    </p>
+<pre><code>@custom-media --medium (min-width: 48em);
+@custom-media --large (min-width: 64em);
+
+/* Referencing the name inside standard rules */
+@media (--medium) {
+    .cards { grid-template-columns: repeat(2, 1fr); }
+}</code></pre>
+                    <p class="project-card__desc">
+                        If design requirements change, you edit one single line, rebuild your site, and the update instantly propagates everywhere.
+                    </p>
+                </div>
+            </section>
+
+            <section class="project-card">
+                <div>
+                    <h2 class="project-card__title">Where Definitions Belong</h2>
+                    <p class="project-card__desc">
+                        In a modern layered CSS architecture, <code>@custom-media</code> configurations belong strictly inside your design token directory (e.g., <code>css/tokens/breakpoints.css</code>).
+                    </p>
+<pre><code>/* tokens/breakpoints.css */
+@custom-media --small (min-width: 30em);
+@custom-media --medium (min-width: 48em);
+@custom-media --dark (prefers-color-scheme: dark);</code></pre>
+                    <p class="project-card__desc">
+                        This ensures they sit alongside your color and typography scales so anyone looking for a design token value knows exactly where to find it.
+                    </p>
+                </div>
+            </section>
+
+            <section class="project-card">
+                <div>
+                    <h2 class="project-card__title">Making It Work in Modern Browsers</h2>
+                    <p class="project-card__desc">
+                        As of right now, no browser ships <code>@custom-media</code> in a stable release. Firefox holds it behind a developer flag, while Chrome and Safari have not implemented it natively yet. 
+                    </p>
+                    <p class="project-card__desc">
+                        To use it today, developers bridge the gap with a <strong>polyfill</strong> at build time. The build tool reads your modern, clean syntax, replaces it with traditional vanilla CSS media queries, and outputs a compiled file that legacy browsers handle perfectly.
+                    </p>
+                </div>
+            </section>
+
+            <section class="project-card">
+                <div>
+                    <h2 class="project-card__title">Build Tool Integrations</h2>
+                    <p class="project-card__desc"><strong>If using PostCSS:</strong> Install the custom plugin tool and add it directly into your <code>postcss.config.js</code> file right after your imports map:</p>
+<pre><code>// npm install --save-dev postcss-custom-media
+module.exports = {
+    plugins: [
+        require('postcss-import'),
+        require('postcss-custom-media'),
+        require('autoprefixer')
+    ]
+};</code></pre>
+                    <p class="project-card__desc"><strong>If using Lightning CSS:</strong> No extra installations are required. Lightning CSS natively parses and flattens <code>@custom-media</code> strings down on compilation out of the box.</p>
+                </div>
+            </section>
+
+            <section class="project-card">
+                <div>
+                    <h2 class="project-card__title">Beyond Viewport Breakpoints</h2>
+                    <p class="project-card__desc">
+                        Any valid media parameter can be tokenized into an alias. This is incredibly helpful for complex accessibility and interaction queries that are easily mistyped from memory:
+                    </p>
+<pre><code>/* Accessibility */
+@custom-media --motion (prefers-reduced-motion: no-preference);
+
+/* Input Types */
+@custom-media --touch (pointer: coarse);
+@custom-media --mouse (hover: hover) and (pointer: fine);</code></pre>
+                </div>
+            </section>
+
+        </div>
+
+        <section style="margin-top: var(--space-xl); padding: var(--space-lg); border: var(--border-thick);">
+            <h2>Compilation: Before and After Polyfill Translation</h2>
+            <div class="grid-half">
+                <div>
+                    <h3>Source (What You Write)</h3>
+<pre><code>@custom-media --medium (min-width: 48em);
+
+@media (--medium) {
+    .cards { grid-template-columns: repeat(2, 1fr); }
+}</code></pre>
+                </div>
+                <div>
+                    <h3>Output (What the Browser Receives)</h3>
+<pre><code>@media (min-width: 48em) {
+    .cards { grid-template-columns: repeat(2, 1fr); }
+}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section style="margin-top: var(--space-xl); padding: var(--space-lg); border: var(--border-thick); background-color: rgba(8, 20, 55, 0.02);">
+            <h2>Practical Refactoring Exercise & Video Checklist</h2>
+            <p class="project-card__desc">When recording your topic demonstration video for the team, ensure you demonstrate the following steps live:</p>
+            <ul class="project-card__desc">
+                <li><strong>The Problem:</strong> Show repeated hardcoded magic numbers across multiple component sheets.</li>
+                <li><strong>The Token:</strong> Add an <code>@import</code> statement for <code>breakpoints.css</code> within the token layer block inside <code>main.css</code>.</li>
+                <li><strong>The Single Source:</strong> Alter a single value inside your token parameters, run your terminal build loop, and demonstrate that the changes cleanly updated every target layout block instantly.</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer style="margin-top: var(--space-xl); padding-top: var(--space-md); border-top: var(--border-thin); font-size: 0.85rem; color: var(--color-text-muted);">
+        <p>&copy; 2026 James Wright &bull; WDD 331R</p>
+    </footer>
+
+</body>
+</html>
