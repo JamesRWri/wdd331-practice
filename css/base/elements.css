@@ -1,31 +1,39 @@
 @layer base {
     body {
-        font-family: var(--font-body);
-        color: var(--color-text-main);
+        font-family: var(--font-body, var(--font-family-sans));
+        color: var(--color-text);
         background-color: var(--color-bg);
         line-height: 1.6;
-        padding: var(--space-lg);
+        padding: var(--spacing-lg, var(--space-lg));
+        transition: background-color var(--transition-base), color var(--transition-base);
     }
 
     h1, h2, h3 {
-        font-family: var(--font-heading);
-        color: var(--color-primary);
+        font-family: var(--font-heading, var(--font-family-sans));
+        color: var(--color-text); 
         font-weight: 700;
         line-height: 1.2;
     }
 
-    h1 { font-size: 2.5rem; margin-bottom: var(--space-md); }
-    h2 { font-size: 1.8rem; margin-bottom: var(--space-sm); }
-
-    a {
-        color: var(--color-primary);
-        text-decoration: none;
-        font-weight: 600;
-        transition: color 0.2s ease;
+    h1 { 
+        font-size: 2.5rem; 
+        margin-bottom: var(--spacing-md, var(--space-md)); 
+    }
+    
+    h2 { 
+        font-size: 1.8rem; 
+        margin-bottom: var(--spacing-sm, var(--space-sm)); 
     }
 
-    a:hover {
-        color: var(--color-secondary);
-        text-decoration: underline;
+    a {
+        color: var(--color-link);
+        text-decoration: none;
+        font-weight: 600;
+        transition: color var(--transition-base);
+        
+        &:hover {
+            color: var(--color-link-hover);
+            text-decoration: underline;
+        }
     }
 }

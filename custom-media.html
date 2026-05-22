@@ -4,36 +4,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Custom Media Breakpoints Study | James Wright</title>
+    <script src="js/theme-preference.js"></script>
+    <link rel="stylesheet" href="css/main.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,700;1,400&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="dist/styles.css">
     <style>
         pre {
-            background-color: #f4f4f4;
-            border-left: 3px solid var(--color-secondary);
+            background-color: var(--color-surface);
+            border-left: 3px solid var(--color-accent, var(--color-secondary));
+            border-top: 1px solid var(--color-border);
+            border-right: 1px solid var(--color-border);
+            border-bottom: 1px solid var(--color-border);
             padding: var(--space-md);
             overflow-x: auto;
             margin: var(--space-md) 0;
             font-family: monospace;
             font-size: 0.85rem;
+            color: var(--color-text, #fff);
         }
-        code { font-family: monospace; color: #c7254e; background-color: #f9f2f4; padding: 2px 4px; border-radius: 2px; }
-        pre code { color: inherit; background-color: transparent; padding: 0; }
+        code { 
+            font-family: monospace; 
+            color: var(--color-text, #fff); 
+            background-color: var(--color-bg); 
+            padding: 2px 4px; 
+            border-radius: 2px; 
+        }
+        pre code { color: var(--color-text, #fff); background-color: transparent; padding: 0; }
         ul { margin-left: var(--space-lg); margin-bottom: var(--space-md); }
         li { margin-bottom: var(--space-xs); }
+        
+        h1, h2, h3, h4, .project-card__title { color: var(--color-text, #fff); }
+        p, li, .project-card__desc { color: var(--color-text-body, var(--color-text, #fff)); }
+        
         .grid-half { display: grid; gap: var(--space-md); grid-template-columns: 1fr; }
-        @media (min-width: 768px) { .grid-half { grid-template-columns: 1fr 1fr; } }
+        
+        @media (--medium) { 
+            .grid-half { grid-template-columns: 1fr 1fr; } 
+        }
     </style>
 </head>
 <body>
 
-    <header style="margin-bottom: var(--space-xl); border-bottom: var(--border-thick); padding-bottom: var(--space-md);">
+    <header style="margin-bottom: var(--space-xl); border-bottom: var(--border-thick); padding-bottom: var(--space-md); color: var(--color-text, #fff);">
         <h1>Choose Topic: @custom-media</h1>
         <p style="font-family: var(--font-heading); font-style: italic; color: var(--color-text-muted); font-size: 1.2rem;">
             WDD 331R &bull; Media Queries Level 5 Specification & Design Tokens
         </p>
-        <a href="index.html" style="display: inline-block; margin-top: var(--space-sm); font-size: 0.9rem;">&larr; Back to Portal Home</a>
+        <a href="index.html" style="display: inline-block; margin-top: var(--space-sm); font-size: 0.9rem; color: var(--color-link, #38bdf8); text-decoration: underline;">&larr; Back to Portal Home</a>
+        
+        <details class="theme-menu" style="margin-top: var(--space-md);">
+            <summary class="theme-control">
+                <span class="visually-hidden">Color scheme</span>
+            </summary>
+            <div class="theme-extra" role="group" aria-label="Choose color scheme">
+                <label class="theme-control theme-pick" data-theme-pick="light">
+                    <input name="theme-preference" type="radio" value="light">
+                    <span aria-hidden="true">&#9788;&#65039;</span>
+                    <span class="visually-hidden">Light</span>
+                </label>
+                <label class="theme-control theme-pick" data-theme-pick="system">
+                    <input name="theme-preference" type="radio" value="system">
+                    <span aria-hidden="true">&#9881;&#65039;</span>
+                    <span class="visually-hidden">System default</span>
+                </label>
+                <label class="theme-control theme-pick" data-theme-pick="dark">
+                    <input name="theme-preference" type="radio" value="dark">
+                    <span aria-hidden="true">&#127766;</span>
+                    <span class="visually-hidden">Dark</span>
+                </label>
+            </div>
+        </details>
     </header>
 
     <main>
@@ -156,7 +198,7 @@ module.exports = {
             </div>
         </section>
 
-        <section style="margin-top: var(--space-xl); padding: var(--space-lg); border: var(--border-thick); background-color: rgba(8, 20, 55, 0.02);">
+        <section style="margin-top: var(--space-xl); padding: var(--space-lg); border: var(--border-thick); background-color: var(--color-surface);">
             <h2>Practical Refactoring Exercise & Video Checklist</h2>
             <p class="project-card__desc">When recording your topic demonstration video for the team, ensure you demonstrate the following steps live:</p>
             <ul class="project-card__desc">

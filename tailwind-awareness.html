@@ -4,10 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tailwind CSS Awareness Study | James Wright</title>
+    
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'system';
+            const isDarkSystem = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (savedTheme === 'dark' || (savedTheme === 'system' && isDarkSystem)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+    </script>
+
+    <link rel="stylesheet" href="css/main.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,700;1,400&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="dist/styles.css">
+    
     <style>
         pre {
             background-color: #f4f4f4;
@@ -32,6 +48,29 @@
             WDD 331R &bull; Advanced CSS Framework Evaluation
         </p>
         <a href="index.html" style="display: inline-block; margin-top: var(--space-sm); font-size: 0.9rem;">&larr; Back to Portal Home</a>
+        
+        <details class="theme-menu" style="margin-top: var(--space-md);">
+            <summary class="theme-control">
+                <span class="visually-hidden">Color scheme</span>
+            </summary>
+            <div class="theme-extra" role="group" aria-label="Choose color scheme">
+                <label class="theme-control theme-pick" data-theme-pick="light">
+                    <input name="theme-preference" type="radio" value="light">
+                    <span aria-hidden="true">&#9788;&#65039;</span>
+                    <span class="visually-hidden">Light</span>
+                </label>
+                <label class="theme-control theme-pick" data-theme-pick="system">
+                    <input name="theme-preference" type="radio" value="system">
+                    <span aria-hidden="true">&#9881;&#65039;</span>
+                    <span class="visually-hidden">System default</span>
+                </label>
+                <label class="theme-control theme-pick" data-theme-pick="dark">
+                    <input name="theme-preference" type="radio" value="dark">
+                    <span aria-hidden="true">&#127766;</span>
+                    <span class="visually-hidden">Dark</span>
+                </label>
+            </div>
+        </details>
     </header>
 
     <main>
@@ -137,5 +176,31 @@
         <p>&copy; 2026 James Wright &bull; WDD 331R</p>
     </footer>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menu = document.querySelector('.theme-menu');
+            const radios = document.querySelectorAll('input[name="theme-preference"]');
+            
+            const activeTheme = localStorage.getItem('theme') || 'system';
+            const currentRadio = document.querySelector(`input[value="${activeTheme}"]`);
+            if (currentRadio) currentRadio.checked = true;
+
+            radios.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    const choice = e.target.value;
+                    localStorage.setItem('theme', choice);
+                    
+                    const isDarkSystem = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    if (choice === 'dark' || (choice === 'system' && isDarkSystem)) {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                    
+                    menu.removeAttribute('open');
+                });
+            });
+        });
+    </script>
 </body>
 </html>
