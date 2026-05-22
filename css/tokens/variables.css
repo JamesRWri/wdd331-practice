@@ -2,12 +2,17 @@
     :root {
         --font-heading: 'Lora', Georgia, serif;
         --font-body: 'Montserrat', system-ui, sans-serif;
+        --font-family-sans: system-ui, sans-serif;
+        --font-family-mono: monospace;
+        --font-size-sm: 1.4rem;
+        --font-size-md: 1.6rem;
+        --font-size-lg: 1.8rem;
         
-        --space-xs: 0.25rem;
-        --space-sm: 0.5rem;
-        --space-md: 1rem;
-        --space-lg: 2rem;
-        --space-xl: 3.5rem;
+        --spacing-xs: 4px;
+        --spacing-sm: 8px;
+        --spacing-md: 16px;
+        --spacing-lg: 24px;
+        --spacing-xl: 32px;
 
         --border-thin: 1px solid var(--color-border);
         --border-thick: 3px solid var(--color-border);
@@ -15,5 +20,20 @@
 
         --shadow-flat: 4px 4px 0px 0px var(--color-border); 
         --shadow-flat-hover: 7px 7px 0px 0px var(--color-border);
+
+        --radius-sm: 4px;
+        --radius-md: 6px;
+        --radius-lg: 8px;
+
+        --transition-base: 0.2s ease;
+
+        --icon-size-sm: 24px;
+        --icon-size-md: 32px;
+
+        --outline-width: 2px;
+
+        --space-md: var(--spacing-md);
+        --space-sm: var(--spacing-sm);
+        --space-lg: var(--spacing-lg);
     }
 }
