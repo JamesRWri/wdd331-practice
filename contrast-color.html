@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The contrast-color() Function Study | James Wright</title>
+    <script src="js/theme-preference.js"></script>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,700;1,400&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dist/styles.css">
+    <style>
+        pre {
+            background-color: var(--color-surface);
+            border-left: 3px solid var(--color-accent, var(--color-secondary));
+            border-top: 1px solid var(--color-border);
+            border-right: 1px solid var(--color-border);
+            border-bottom: 1px solid var(--color-border);
+            padding: var(--space-md);
+            overflow-x: auto;
+            margin: var(--space-md) 0;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: var(--color-text, #fff);
+        }
+        code { 
+            font-family: monospace; 
+            color: var(--color-text, #fff);
+            background-color: var(--color-bg); 
+            padding: 2px 4px; 
+            border-radius: 2px; 
+        }
+        pre code { color: var(--color-text, #fff); background-color: transparent; padding: 0; }
+        ul, ol { margin-left: var(--space-lg); margin-bottom: var(--space-md); }
+        li { margin-bottom: var(--space-xs); }
+        
+        h1, h2, h3, h4, .project-card__title { color: var(--color-text, #fff); }
+        p, li, .project-card__desc { color: var(--color-text-body, var(--color-text, #fff)); }
+        
+        .grid-half { display: grid; gap: var(--space-md); grid-template-columns: 1fr; }
+        .grid-three { display: grid; gap: var(--space-md); grid-template-columns: 1fr; }
+        
+        @media (--medium) { 
+            .grid-half { grid-template-columns: 1fr 1fr; } 
+            .grid-three { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        .demo-box {
+            padding: var(--space-lg);
+            border-radius: var(--radius-md);
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background-color var(--transition-base), color var(--transition-base);
+            border: 1px solid var(--color-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 120px;
+        }
+        .demo-controls {
+            background-color: var(--color-surface);
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-md);
+            border: 1px solid var(--color-border);
+            display: flex;
+            gap: var(--space-md);
+            align-items: center;
+        }
+        .demo-controls label {
+            font-weight: 500;
+            color: var(--color-text, #fff);
+        }
+    </style>
+</head>
+<body>
+
+    <header style="margin-bottom: var(--space-xl); border-bottom: var(--border-thick); padding-bottom: var(--space-md); color: var(--color-text, #fff);">
+        <h1>Choose Topic: The contrast-color() Function</h1>
+        <p style="font-family: var(--font-heading); font-style: italic; color: var(--color-text-muted); font-size: 1.2rem;">
+            WDD 331R &bull; Media Queries Level 5 Specification & Design Tokens
+        </p>
+        <a href="index.html" style="display: inline-block; margin-top: var(--space-sm); font-size: 0.9rem; color: var(--color-text, #fff); text-decoration: underline;">&larr; Back to Portal Home</a>
+        
+        <details class="theme-menu" style="margin-top: var(--space-md);">
+            <summary class="theme-control">
+                <span class="visually-hidden">Color scheme</span>
+            </summary>
+            <div class="theme-extra" role="group" aria-label="Choose color scheme">
+                <label class="theme-control theme-pick" data-theme-pick="light">
+                    <input name="theme-preference" type="radio" value="light">
+                    <span aria-hidden="true">&#9788;&#65039;</span>
+                    <span class="visually-hidden">Light</span>
+                </label>
+                <label class="theme-control theme-pick" data-theme-pick="system">
+                    <input name="theme-preference" type="radio" value="system">
+                    <span aria-hidden="true">&#9881;&#65039;</span>
+                    <span class="visually-hidden">System default</span>
+                </label>
+                <label class="theme-control theme-pick" data-theme-pick="dark">
+                    <input name="theme-preference" type="radio" value="dark">
+                    <span aria-hidden="true">&#127766;</span>
+                    <span class="visually-hidden">Dark</span>
+                </label>
+            </div>
+        </details>
+    </header>
+
+    <main>
+        <div class="assignment-grid">
+
+            <section class="project-card">
+                <div>
+                    <h2 class="project-card__title">How It Works</h2>
+                    <p class="project-card__desc">
+                        Imagine you are building a set of buttons whose background colors come from a design token, a CMS field, or a user preference. Instead of needing paired variables or complex JavaScript to calculate readable text colors, the <code>contrast-color()</code> function hands that job directly to the browser.
+                    </p>
+<pre><code>.card {
+    --bg: var(--brand-color);
+    background-color: var(--bg);
+    color: contrast-color(var(--bg));
+}</code></pre>
+                    <p class="project-card__desc">
+                        Under the hood, the browser calculates the WCAG 2 contrast ratio of both white and black against your input color. Whichever one produces the higher ratio wins. It accepts any valid color format:
+                    </p>
+<pre><code>color: contrast-color(darkblue);
+color: contrast-color(#ff6b35);
+color: contrast-color(oklch(0.6 0.15 250));</code></pre>
+                </div>
+            </section>
+
+            <section class="project-card">
+                <div>
+                    <h2 class="project-card__title">Name Change & History</h2>
+                    <p class="project-card__desc">
+                        Earlier drafts of the specification used the name <code>color-contrast()</code> with a different, more complex syntax that accepted a list of multiple candidate colors and a <code>vs</code> keyword. That version was never shipped to stable browsers.
+                    </p>
+                    <p class="project-card__desc">
+                        The current function is officially named <code>contrast-color()</code>, takes a single argument, and returns only black or white. The fuller variant with custom candidate lists remains delayed in CSS Color Level 6 specifications.
+                    </p>
+                </div>
+            </section>
+
+            <section class="project-card">
+                <div>
+                    <h2 class="project-card__title">Why It Matters for Accessibility</h2>
+                    <p class="project-card__desc">
+                        The Web Content Accessibility Guidelines (WCAG) require a minimum contrast ratio of 4.5:1 between normal text and its background. Maintaining these ratios across hover states, disabled states, and dark mode variants where background colors shift dynamically is notoriously error-prone.
+                    </p>
+                    <p class="project-card__desc">
+                        <code>contrast-color()</code> ensures that the browser will pick whichever of black or white has more contrast with your background. For backgrounds that are clearly light or clearly dark, this produces excellent results.
+                    </p>
+                </div>
+            </section>
+
+            <section class="project-card">
+                <div>
+                    <h2 class="project-card__title">The Mid-Tone Problem</h2>
+                    <p class="project-card__desc">
+                        Consider a medium blue like <code>#317CFF</code>. When run through the WCAG 2 formula, black mathematically wins the contrast ratio calculation over white. However, when you actually look at black text on that blue background, it feels much harder to read than white text.
+                    </p>
+                    <p class="project-card__desc">
+                        The WCAG 2 formula calculates luminance contrast mathematically without fully accounting for how human eyes perceive lightness across different color hues. A newer algorithm called APCA (Accessible Perceptual Contrast Algorithm) is being developed for WCAG 3 to address exactly this problem.
+                    </p>
+                </div>
+            </section>
+
+            <section class="project-card">
+                <div>
+                    <h2 class="project-card__title">Do Not Assume Compliance</h2>
+                    <p class="project-card__desc">
+                        <code>contrast-color()</code> is a convenience tool, not a compliance guarantee. It picks the better of two options, but "better" does not always mean "good enough." 
+                    </p>
+                    <p class="project-card__desc">
+                        For mid-tone backgrounds (roughly 40% to 60% lightness in oklch), you should still test the result manually and consider overriding it with a known accessible pairing when the output looks wrong. Always verify ratios using tools like WebAIM's Contrast Checker.
+                    </p>
+                </div>
+            </section>
+
+            <section class="project-card">
+                <div>
+                    <h2 class="project-card__title">Practical Implementation Patterns</h2>
+                    <p class="project-card__desc"><strong>Dynamic Hover States:</strong> When you lighten or darken a background on hover, the text color may need to flip. The function handles this automatically as the token crosses thresholds:</p>
+<pre><code>.card {
+    --bg: oklch(0.6 0.15 250);
+    background: var(--bg);
+    color: contrast-color(var(--bg));
+}
+.card:hover {
+    --bg: color-mix(in oklch, oklch(0.6 0.15 250) 40%, white);
+}</code></pre>
+                    <p class="project-card__desc"><strong>Feature Detection Safe Fallback:</strong> Wrapping code in an <code>@supports</code> block ensures older browsers cleanly fall back to a safe default text color statement:</p>
+<pre><code>.badge {
+    background-color: var(--badge-bg);
+    color: #ffffff; /* fallback */
+}
+@supports (color: contrast-color(red)) {
+    .badge { color: contrast-color(var(--badge-bg)); }
+}</code></pre>
+                </div>
+            </section>
+
+        </div>
+
+        <section style="margin-top: var(--space-xl); padding: var(--space-lg); border: var(--border-thick);">
+            <h2>Live Demo Interactive Sandbox</h2>
+            <p class="project-card__desc" style="margin-bottom: var(--space-md);">
+                Pick a background color with the color input below and watch how a calculated <code>contrast-color()</code> logic automatically flips the text color output between black and white based on luminance contrast thresholds.
+            </p>
+            
+            <div class="demo-controls">
+                <label for="bg-picker">Select Background Color:</label>
+                <input type="color" id="bg-picker" value="#7033cc" style="cursor: pointer;">
+                <span id="hex-display" style="font-family: monospace; color: var(--color-text-muted);">#7033cc</span>
+            </div>
+
+            <div class="grid-three">
+                <div>
+                    <div id="demo-light" class="demo-box">Text Tint (Lighter)</div>
+                </div>
+                <div>
+                    <div id="demo-base" class="demo-box">Text Base Color</div>
+                </div>
+                <div>
+                    <div id="demo-dark" class="demo-box">Text Shade (Darker)</div>
+                </div>
+            </div>
+        </section>
+
+        <section style="margin-top: var(--space-xl); padding: var(--space-lg); border: var(--border-thick); background-color: var(--color-surface);">
+            <h2>Limitations to Be Honest About</h2>
+            <ul class="project-card__desc">
+                <li><strong>Only Returns Black or White:</strong> You cannot configure a custom branded navy or soft cream color output target.</li>
+                <li><strong>No Font Size/Weight Awareness:</strong> It always targets standard 4.5:1 text scales, failing to adapt to lower 3:1 allowances for large or bold titles.</li>
+                <li><strong>Transparent Background Gotcha:</strong> It calculates color outputs strictly based on computed token properties. If an element has <code>background: transparent</code>, the function evaluates against invisible black instead of the parents' visible background.</li>
+                <li><strong>No Image/Gradient Evaluation:</strong> The function cannot parse dynamic pixel backgrounds or evaluate shifting multi-stop gradients behind text content.</li>
+            </ul>
+        </section>
+
+        <section style="margin-top: var(--space-xl); padding: var(--space-lg); border: var(--border-thick);">
+            <h2>Teaching Video Checklist & Resources</h2>
+            <p class="project-card__desc">Ensure your recorded video covers the following benchmark criteria:</p>
+            <ol class="project-card__desc">
+                <li>Demonstrate how text color auto-updates dynamically using custom property variables.</li>
+                <li>Explain the 40% to 60% mid-tone problem and why WCAG 2 luminance math falls short.</li>
+                <li>Showcase the <code>@supports</code> feature detection block setup.</li>
+            </ol>
+            <hr style="border: 0; border-top: var(--border-thin); margin: var(--space-md) 0;">
+            <p class="project-card__desc"><strong>Reference Guides:</strong></p>
+            <ul class="project-card__desc">
+                <li><a href="https://developer.mozilla.org" target="_blank" style="color: var(--color-accent); text-decoration: underline;">contrast-color() &mdash; MDN Reference Docs</a></li>
+                <li><a href="https://webkit.org" target="_blank" style="color: var(--color-accent); text-decoration: underline;">Browser Contrasting Algorithms &mdash; WebKit Blog</a></li>
+                <li><a href="https://webaim.org" target="_blank" style="color: var(--color-accent); text-decoration: underline;">Luminance Contrast Scale &mdash; WebAIM Accessibility</a></li>
+            </ul>
+        </section>
+    </main>
+
+    <footer style="margin-top: var(--space-xl); padding-top: var(--space-md); border-top: var(--border-thin); font-size: 0.85rem; color: var(--color-text-muted);">
+        <p>&copy; 2026 James Wright &bull; WDD 331R</p>
+    </footer>
+
+    <script>
+        const bgPicker = document.getElementById('bg-picker');
+        const hexDisplay = document.getElementById('hex-display');
+        const demoBase = document.getElementById('demo-base');
+        const demoLight = document.getElementById('demo-light');
+        const demoDark = document.getElementById('demo-dark');
+
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        function calculateContrastColor(r, g, b) {
+            const a = [r, g, b].map(v => {
+                v /= 255;
+                return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+            });
+            const luminance = a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+            return luminance > 0.179 ? '#000000' : '#ffffff';
+        }
+
+        function adjustColorBrightness(r, g, b, percent) {
+            const R = Math.min(255, Math.max(0, r + percent));
+            const G = Math.min(255, Math.max(0, g + percent));
+            const B = Math.min(255, Math.max(0, b + percent));
+            return { r: R, g: G, b: B, hex: "#" + ((1 << 24) + (R << 16) + (G << 8) + B).toString(16).slice(1) };
+        }
+
+        function updateDemoColors() {
+            const hex = bgPicker.value;
+            hexDisplay.textContent = hex.toUpperCase();
+            
+            const rgb = hexToRgb(hex);
+            if (!rgb) return;
+
+            const lightVariant = adjustColorBrightness(rgb.r, rgb.g, rgb.b, 50);
+            const darkVariant = adjustColorBrightness(rgb.r, rgb.g, rgb.b, -50);
+
+            demoBase.style.backgroundColor = hex;
+            demoLight.style.backgroundColor = lightVariant.hex;
+            demoDark.style.backgroundColor = darkVariant.hex;
+
+            demoBase.style.color = calculateContrastColor(rgb.r, rgb.g, rgb.b);
+            demoLight.style.color = calculateContrastColor(lightVariant.r, lightVariant.g, lightVariant.b);
+            demoDark.style.color = calculateContrastColor(darkVariant.r, darkVariant.g, darkVariant.b);
+        }
+
+        bgPicker.addEventListener('input', updateDemoColors);
+        window.addEventListener('DOMContentLoaded', updateDemoColors);
+    </script>
+</body>
+</html>

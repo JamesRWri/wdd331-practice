@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced CSS Blend Modes | James Wright</title>
+    <script src="js/theme-preference.js"></script>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,700;1,400&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dist/styles.css">
+    <style>
+        pre {
+            background-color: var(--color-surface);
+            border-left: 3px solid var(--color-accent, var(--color-secondary));
+            border-top: 1px solid var(--color-border);
+            border-right: 1px solid var(--color-border);
+            border-bottom: 1px solid var(--color-border);
+            padding: var(--space-md);
+            overflow-x: auto;
+            margin: var(--space-md) 0;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: var(--color-text, #fff);
+        }
+        code { 
+            font-family: monospace; 
+            color: var(--color-text, #fff);
+            background-color: var(--color-bg); 
+            padding: 2px 4px; 
+            border-radius: 2px; 
+        }
+        pre code { color: var(--color-text, #fff); background-color: transparent; padding: 0; }
+        ul, ol { margin-left: var(--space-lg); margin-bottom: var(--space-md); }
+        li { margin-bottom: var(--space-xs); }
+        
+        h1, h2, h3, h4, .project-card__title { color: var(--color-text, #fff); }
+        p, li, .project-card__desc { color: var(--color-text-body, var(--color-text, #fff)); }
+        
+        .assignment-grid { display: grid; gap: var(--space-md); grid-template-columns: 1fr; }
+        @media (min-width: 768px) { .assignment-grid { grid-template-columns: 1fr 1fr; } }
+
+        .sandbox-container {
+            border: var(--border-thick);
+            padding: var(--space-lg);
+            margin-top: var(--space-xl);
+            background-color: var(--color-bg);
+            border-radius: var(--radius-md);
+        }
+
+        .demo-hero {
+            --overlay-color: oklch(0.45 0.2 260);
+            height: 250px;
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-md);
+            background-image: var(--overlay-color), url('https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=1200');
+            background-position: center;
+            background-size: cover;
+            background-blend-mode: normal;
+            transition: background var(--transition-base), background-blend-mode var(--transition-base);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .demo-hero-text {
+            color: #ffffff;
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+
+        .explosion-environment {
+            background: linear-gradient(45deg, #ff3366, #33ccff);
+            padding: var(--space-lg);
+            border-radius: var(--radius-md);
+            margin-top: var(--space-md);
+            position: relative;
+        }
+
+        .isolated-card {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #111111;
+            padding: var(--space-md);
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-md);
+        }
+
+        .blended-badge {
+            display: inline-block;
+            background-color: #ffcc00;
+            color: #111111;
+            padding: var(--space-xs) var(--space-sm);
+            font-weight: 600;
+            border-radius: 4px;
+            margin-top: var(--space-xs);
+        }
+
+        .controls-wrapper {
+            background-color: var(--color-surface);
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-md);
+            border: 1px solid var(--color-border);
+            display: grid;
+            gap: var(--space-md);
+            grid-template-columns: 1fr;
+        }
+        @media (min-width: 600px) { .controls-wrapper { grid-template-columns: repeat(3, 1fr); } }
+
+        .control-group { display: flex; flex-direction: column; gap: var(--space-xs); }
+        .control-group label { font-weight: 600; font-size: 0.9rem; }
+        .control-group select, .control-group input { padding: var(--space-xs); border-radius: 4px; border: 1px solid var(--color-border); }
+    </style>
+</head>
+<body>
+
+    <header style="margin-bottom: var(--space-xl); border-bottom: var(--border-thick); padding-bottom: var(--space-md); color: var(--color-text, #fff);">
+        <h1>Advanced CSS Compositing: Blend Modes</h1>
+        <p style="font-family: var(--font-heading); font-style: italic; color: var(--color-text-muted); font-size: 1.2rem;">
+            WDD 331R &bull; Stacking Contexts and Layer Compositing
+        </p>
+        <a href="index.html" style="display: inline-block; margin-top: var(--space-sm); font-size: 0.9rem; color: var(--color-text, #fff); text-decoration: underline;">&larr; Back to Portal Home</a>
+        
+        <details class="theme-menu" style="margin-top: var(--space-md);">
+            <summary class="theme-control">
+                <span class="visually-hidden">Color scheme</span>
+            </summary>
+            <div class="theme-extra" role="group" aria-label="Choose color scheme">
+                <label class="theme-control theme-pick" data-theme-pick="light">
+                    <input name="theme-preference" type="radio" value="light">
+                    <span aria-hidden="true">&#9788;&#65039;</span>
+                    <span class="visually-hidden">Light</span>
+                </label>
+                <label class="theme-control theme-pick" data-theme-pick="system">
+                    <input name="theme-preference" type="radio" value="system">
+                    <span aria-hidden="true">&#9881;&#65039;</span>
+                    <span class="visually-hidden">System default</span>
+                </label>
+                <label class="theme-control theme-pick" data-theme-pick="dark">
+                    <input name="theme-preference" type="radio" value="dark">
+                    <span aria-hidden="true">&#127766;</span>
+                    <span class="visually-hidden">Dark</span>
+                </label>
+            </div>
+        </details>
+    </header>
+
+    <main>
+        <div class="assignment-grid">
+
+            <section class="project-card">
+                <div>
+                    <h2 class="project-card__title">How Blend Modes Work</h2>
+                    <p class="project-card__desc">
+                        Instead of painting one layer directly on top of another and hiding what sits underneath, a blend mode mixes pixel values using mathematical calculations. Every setup requires a source layer (the top layer) and a destination layer (the base layout).
+                    </p>
+                    <p class="project-card__desc">
+                        CSS handles this through two facing behaviors: <code>background-blend-mode</code> processes internal files and background values inside a single selector, while <code>mix-blend-mode</code> forces the element to blend outwards with independent parent structural layers.
+                    </p>
+                </div>
+            </section>
+
+            <section class="project-card">
+                <div>
+                    <h2 class="project-card__title">The Blend Mode Families</h2>
+                    <p class="project-card__desc">Keywords are broken down into logical mathematical categories depending on output properties:</p>
+                    <ul class="project-card__desc">
+                        <li><strong>Darken Family (multiply, darken):</strong> Drops white pixels completely out of the calculation. Ideal for applying textures.</li>
+                        <li><strong>Lighten Family (screen, lighten):</strong> Drops black values out completely. Perfect for lighting or glow effects.</li>
+                        <li><strong>Contrast Family (overlay, soft-light):</strong> Keeps extreme highlights and base shadows while shifting middle tones.</li>
+                        <li><strong>Component Family (color, luminosity):</strong> Swaps specific channels like hue or saturation while maintaining base structural lighting.</li>
+                    </ul>
+                </div>
+            </section>
+
+        </div>
+
+        <section class="sandbox-container">
+            <h2>Live Compositing Sandbox</h2>
+            <p class="project-card__desc" style="margin-bottom: var(--space-md);">
+                Use the control parameters below to switch between blending families. Witness the operational variance between internal background blending and external multi-layer mixing.
+            </p>
+
+            <div class="controls-wrapper">
+                <div class="control-group">
+                    <label for="overlay-picker">Overlay Color Token:</label>
+                    <input type="color" id="overlay-picker" value="#2a66ff">
+                </div>
+                <div class="control-group">
+                    <label for="blend-selector">Active Blend Mode:</label>
+                    <select id="blend-selector">
+                        <option value="normal">normal</option>
+                        <option value="multiply">multiply (Darken)</option>
+                        <option value="screen">screen (Lighten)</option>
+                        <option value="overlay">overlay (Contrast)</option>
+                        <option value="color">color (Component)</option>
+                        <option value="luminosity">luminosity (Component)</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="isolation-toggle">Isolation Mode Stacking Context:</label>
+                    <select id="isolation-toggle">
+                        <option value="auto">isolation: auto (Leaking Context)</option>
+                        <option value="isolate">isolation: isolate (Contained Boundary)</option>
+                    </select>
+                </div>
+            </div>
+
+            <h3 style="margin-top: var(--space-md);">1. background-blend-mode Simulation</h3>
+            <div id="hero-target" class="demo-hero">
+                <div class="demo-hero-text">Hero Showcase</div>
+            </div>
+
+            <h3>2. mix-blend-mode "Colors Explode" Environment</h3>
+            <div class="explosion-environment">
+                <p style="color: #fff; font-weight: 600; margin-bottom: 5px;">Dynamic Parent Layout Container (Gradient Background)</p>
+                <div id="isolation-card-target" class="isolated-card">
+                    <h4>Component Card Container</h4>
+                    <p style="font-size: 0.9rem; margin-bottom: var(--space-xs);">This markup represents isolated layouts. Under normal rules, our badge should blend into this white card wrapper.</p>
+                    <div id="badge-target" class="blended-badge">Composited Badge</div>
+                </div>
+            </div>
+        </section>
+
+        <div class="assignment-grid" style="margin-top: var(--space-xl);">
+            <section class="project-card">
+                <div>
+                    <h2 class="project-card__title">The Isolation Stacking Boundary</h2>
+                    <p class="project-card__desc">
+                        By default, outward facing <code>mix-blend-mode</code> statement properties will burn or multiply through every layer underneath them down to the root canvas. If an element sits inside a white container card resting on top of a styled body backdrop, the calculation leaks all the way through, causing colors to explode garishly.
+                    </p>
+                    <p class="project-card__desc">
+                        Declaring <code>isolation: isolate</code> on the structural parent caps this behavior entirely. It signals the browser engine to start an explicit local stacking context framework, confining the multi-layer mathematical calculations strictly within the boundaries of that parent card container.
+                    </p>
+                </div>
+            </section>
+
+            <section class="project-card">
+                <div>
+                    <h2 class="project-card__title">Accessibility & Typography Risks</h2>
+                    <p class="project-card__desc">
+                        Applying complex blending algorithms directly to text blocks introduces extreme contrast risk profiles. Since calculation values change dynamically on a pixel-by-pixel level depending on structural data or background image variations passing underneath, guaranteeing strict WCAG AA standard contrast metrics becomes highly difficult.
+                    </p>
+                    <p class="project-card__desc">
+                        If color mixing is required over changing visual assets, engineers should opt for container-bounded <code>background-blend-mode</code> structures. This ensures that typography elements rest on top of a safe, predictable, pre-composited flat plane.
+                    </p>
+                </div>
+            </section>
+        </div>
+
+        <section style="margin-top: var(--space-xl); padding: var(--space-lg); border: var(--border-thick);">
+            <h2>Teaching Video Checklist Criteria</h2>
+            <ol class="project-card__desc" style="line-height: 1.6;">
+                <li><strong>Internal vs External Separation:</strong> Differentiate inward background-layer operations from outward rendering context interactions.</li>
+                <li><strong>Multi-Family Demonstration:</strong> Show real-world visual reactions across Darken, Lighten, Contrast, and Component selections.</li>
+                <li><strong>The Explosion Containment Routine:</strong> Demonstrate blend layers leaking completely through parent layout blocks and show how <code>isolation: isolate</code> normalizes structural inheritance.</li>
+            </ol>
+            <hr style="border: 0; border-top: var(--border-thin); margin: var(--space-md) 0;">
+            <p class="project-card__desc"><strong>Technical Specifications:</strong></p>
+            <ul class="project-card__desc">
+                <li><a href="https://developer.mozilla.org" target="_blank" style="color: var(--color-accent); text-decoration: underline;">Compositing Level 1 Layer Specifications &mdash; MDN</a></li>
+                <li><a href="https://web.dev" target="_blank" style="color: var(--color-accent); text-decoration: underline;">Interactive Runtime Blending Vectors &mdash; Web.Dev Guide</a></li>
+            </ul>
+        </section>
+    </main>
+
+    <footer style="margin-top: var(--space-xl); padding-top: var(--space-md); border-top: var(--border-thin); font-size: 0.85rem; color: var(--color-text-muted);">
+        <p>&copy; 2026 James Wright &bull; Styled via shared token system layers.</p>
+    </footer>
+
+    <script>
+        const overlayPicker = document.getElementById('overlay-picker');
+        const blendSelector = document.getElementById('blend-selector');
+        const isolationToggle = document.getElementById('isolation-toggle');
+        
+        const heroTarget = document.getElementById('hero-target');
+        const badgeTarget = document.getElementById('badge-target');
+        const isolationCardTarget = document.getElementById('isolation-card-target');
+
+        function synchronizeSandboxCalculations() {
+            const selectedColor = overlayPicker.value;
+            const activeMode = blendSelector.value;
+            const isolationSetting = isolationToggle.value;
+
+            heroTarget.style.backgroundImage = `linear-gradient(${selectedColor}, ${selectedColor}), url('https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=1200')`;
+            heroTarget.style.backgroundBlendMode = activeMode;
+
+            badgeTarget.style.backgroundColor = selectedColor;
+            badgeTarget.style.mixBlendMode = activeMode;
+
+            isolationCardTarget.style.isolation = isolationSetting;
+        }
+
+        overlayPicker.addEventListener('input', synchronizeSandboxCalculations);
+        blendSelector.addEventListener('change', synchronizeSandboxCalculations);
+        isolationToggle.addEventListener('change', synchronizeSandboxCalculations);
+        
+        window.addEventListener('DOMContentLoaded', synchronizeSandboxCalculations);
+    </script>
+</body>
+</html>
