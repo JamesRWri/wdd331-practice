@@ -7,3 +7,4 @@
 @import "components/cards.css";
 @import "utilities/utilities.css";
 @import url('components/theme-toggle.css') layer(components);
+@import "components/effects.css";
