@@ -1,0 +1,68 @@
+.articles-page header {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    background-color: #ffffff;
+    border-bottom: 3px solid #000000;
+}
+
+.articles-page header h1 {
+    color: #003153;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.articles-page .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: 2rem;
+    padding: 3rem 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.articles-page .card {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    border: 3px solid #000000;
+    box-shadow: 6px 6px 0px #000000;
+}
+
+.articles-page .card div[aria-hidden="true"] {
+    height: 160px;
+    background-color: #1e4d2b; 
+    border-bottom: 3px solid #000000;
+}
+
+.articles-page .card > div:not([aria-hidden]) {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 1.5rem;
+}
+
+.articles-page .card h2 {
+    font-size: 1.4rem;
+    color: #003153;
+    margin-bottom: 0.75rem;
+}
+
+.articles-page .card p {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #333333;
+    margin-bottom: 1.5rem;
+}
+
+.articles-page .card a {
+    margin-top: auto;
+    align-self: flex-start;
+    color: #1e4d2b;
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+}
+
+.articles-page .card a:hover {
+    border-bottom-color: #1e4d2b;
+}

@@ -15,3 +15,7 @@ The purpose of this site is to help me refine my advanced CSS skills, practice m
 - [Layered Components](unit-2/layered-components/index.html)
 - [Tailwind CSS](tailwind-awareness.html)
 - [Custom Media](custom-media.html)
+- [Visual Effects](visual-effects.html)
+- [Blend Modes](blend-modes.html)
+- [Unit 4 Assignment: Editorial Layout](grid-layouts/editorial.html) - Structural micro layout mapping zone components cleanly via responsive CSS Grid Named template areas.
+- [Unit 4 Assignment: Fluid Card Grid System](grid-layouts/cards.html) - Scalable matrix configuration leveraging auto-fit generation configurations and custom nested column container min() clamp structures.
