@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Masonry Layout System</title>
+    <link rel="stylesheet" href="dist/styles.css">
+    <style>
+
+        body {
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .portfolio-main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .page-title {
+            font-family: 'Lora', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #000000;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-meta {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            color: #555555;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 2rem;
+        }
+
+        .masonry-demo-wrapper {
+            background-color: #ffffff;
+            border: 3px solid #000000;
+            padding: 2rem;
+            margin: 2.5rem 0;
+        }
+
+        .masonry-control-deck {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 3px solid #000000;
+        }
+
+        .masonry-control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .masonry-control-group label {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: #555555;
+        }
+
+        .masonry-control-group select {
+            padding: 0.5rem 1rem;
+            border: 3px solid #000000;
+            background: #ffffff;
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
+            cursor: pointer;
+        }
+        
+        .masonry-stage {
+            position: relative;
+            width: 100%;
+            transition: min-height 0.3s ease;
+        }
+
+        .masonry-stage.mode-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
+            align-items: start;
+        }
+        .masonry-stage.mode-grid .masonry-brick {
+            position: static !important;
+            width: auto !important;
+        }
+
+        .masonry-stage.mode-columns {
+            column-count: 3;
+            column-gap: 1.5rem;
+            display: block;
+        }
+        @media (max-width: 900px) {
+            .masonry-stage.mode-columns { column-count: 2; }
+        }
+        @media (max-width: 600px) {
+            .masonry-stage.mode-columns { column-count: 1; }
+        }
+        .masonry-stage.mode-columns .masonry-brick {
+            position: static !important;
+            width: 100% !important;
+            display: inline-block;
+            break-inside: avoid;
+            margin-bottom: 1.5rem;
+        }
+
+        .masonry-stage.mode-lanes {
+            display: block;
+        }
+        .masonry-stage.mode-lanes .masonry-brick {
+            position: absolute;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), width 0.4s ease;
+        }
+
+        .masonry-brick {
+            background: #ffffff;
+            border: 3px solid #000000;
+            box-shadow: 6px 6px 0px #000000;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brick-header {
+            background: #081437; 
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 0.5rem 1rem;
+            border-bottom: 3px solid #000000;
+            text-transform: uppercase;
+        }
+
+        .brick-body {
+            padding: 1.25rem;
+        }
+
+        .brick-title {
+            margin: 0 0 0.5rem 0;
+            font-family: 'Lora', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #000000;
+        }
+
+        .brick-text {
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            color: #333333;
+            line-height: 1.5;
+        }
+
+        .masonry-meta-output {
+            background: #f4f4f4;
+            padding: 1rem;
+            margin-top: 2rem;
+            font-family: monospace;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border: 3px solid #000000;
+            color: #8B9C7F; 
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="portfolio-main-container">
+        <main>
+            <section>
+                <h1 class="page-title">CSS Masonry Layout & The Grid-Lanes Spec</h1>
+                <div class="page-meta">WDD 331R Layout System Assignment &middot; June 2026</div>
+                
+                <p>
+                    A masonry layout is commonly referred to as the "Pinterest layout"—a layout grid where columns maintain a strict vertical path, but rows pack tightly together. Instead of snapping neatly to a shared horizontal row baseline, each item rises to completely fill the vertical gap left by the shorter item directly above it. This produces a dense, organic arrangement that handles variable-height content without creating large gaps of empty white space.
+                </p>
+
+                <h2>Before Native CSS: The Workarounds</h2>
+                <p>
+                    Because standard CSS layout engines historically could not pack items vertically across staggered rows, developers invented alternative workarounds to achieve this layout aesthetic:
+                </p>
+                <p>
+                    <strong>CSS Multi-Columns:</strong> Reuses <code>column-count</code> to cascade elements down vertical paths. While visually dense, this flow forces items to read top-to-bottom within column one before starting at the top of column two. This breaks sequential DOM order, causing keyboard tab navigation to jump chaotically across columns.
+                </p>
+                <p>
+                    <strong>JavaScript Absolute Frameworks:</strong> Libraries like Masonry.js measure the rendered height of each content block via script, compute the shortest active column lane, and apply precise absolute coordinates to position items. While highly reliable across production browsers, it requires asset weight overhead and script initialization before the UI layout renders correctly.
+                </p>
+
+                <div class="masonry-demo-wrapper">
+                    <div class="masonry-control-deck">
+                        <div class="masonry-control-group">
+                            <label for="engine-select">Select Layout Engine Mode</label>
+                            <select id="engine-select">
+                                <option value="grid">Standard CSS Grid (Row Baseline Gaps)</option>
+                                <option value="columns">CSS Column-Count (Broken Reading Order)</option>
+                                <option value="lanes" selected>Future Native Grid-Lanes (Perfect Packing)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="masonry-container" class="masonry-stage mode-lanes">
+                        <div class="masonry-brick">
+                            <div class="brick-header">Card #1</div>
+                            <div class="brick-body">
+                                <h3 class="brick-title">Short Fragment</h3>
+                                <p class="brick-text">This content block is brief.</p>
+                            </div>
+                        </div>
+                        <div class="masonry-brick">
+                            <div class="brick-header">Card #2</div>
+                            <div class="brick-body">
+                                <h3 class="brick-title">Extended Narrative</h3>
+                                <p class="brick-text">This section contains multiple descriptive sentences that stretch the outer card container deeper down the grid lane. It has more text in it.</p>
+                            </div>
+                        </div>
+                        <div class="masonry-brick">
+                            <div class="brick-header">Card #3</div>
+                            <div class="brick-body">
+                                <h3 class="brick-title">Medium Core Element</h3>
+                                <p class="brick-text">A balanced collection of text properties that keeps the content uniform and steady across columns.</p>
+                            </div>
+                        </div>
+                        <div class="masonry-brick">
+                            <div class="brick-header">Card #4</div>
+                            <div class="brick-body">
+                                <h3 class="brick-title">Deep Sub-Level Editorial</h3>
+                                <p class="brick-text">An ultra-deep layout block containing extended copy descriptions. In standard row grids, this single block forces all neighboring row elements to adopt an identical massive height envelope.</p>
+                            </div>
+                        </div>
+                        <div class="masonry-brick">
+                            <div class="brick-header">Card #5</div>
+                            <div class="brick-body">
+                                <h3 class="brick-title">Short Response</h3>
+                                <p class="brick-text">Another fast snippet packing tightly underneath sibling items in the active track.</p>
+                            </div>
+                        </div>
+                        <div class="masonry-brick">
+                            <div class="brick-header">Card #6</div>
+                            <div class="brick-body">
+                                <h3 class="brick-title">Standard Product</h3>
+                                <p class="brick-text">Typical layout overview data containing a few standard feature text fields for UI rendering.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="masonry-meta-output" id="syntax-display"></div>
+                </div>
+
+                <h2>The Specification Evolution: From Masonry to Grid-Lanes</h2>
+                <p>
+                    Following years of debate within the CSS Working Group regarding whether masonry structures should live inside standard CSS Grid or operate as a separate display type, a final resolution was reached in late 2025. The feature was officially named <code>display: grid-lanes</code>. This keyword structure accurately describes its behavior: strict tracking lanes across one axis, and free packing layout mechanics across the other, without conflicting with legacy script library class configurations.
+                </p>
+
+                <h2>Progressive Enhancement Fallback</h2>
+                <p>
+                    Because <code>grid-lanes</code> is currently limited to development browser versions, utilizing a clean layout fallback structure is a necessity for production sites. By building a standard grid architecture first with <code>align-items: start</code>, items neatly cluster at their starting row bounds. While vertical gap pools appear, the structure remains completely readable until production engines inherit the progressive enhancement rules.
+                </p>
+            </section>
+        </main>
+    </div>
+
+    <script type="text/javascript">
+        (function () {
+            'use strict';
+            const selectEngine = document.getElementById('engine-select');
+            const container = document.getElementById('masonry-container');
+            const bricks = Array.from(document.querySelectorAll('.masonry-brick'));
+            const syntaxDisplay = document.getElementById('syntax-display');
+
+            function runSimulation() {
+                const mode = selectEngine.value;
+                container.className = `masonry-stage mode-${mode}`;
+
+                bricks.forEach(brick => {
+                    brick.style.position = '';
+                    brick.style.transform = '';
+                    brick.style.width = '';
+                });
+
+                if (mode === 'lanes') {
+                    const columnWidth = 260; 
+                    const gap = 24; 
+                    const stageWidth = container.offsetWidth;
+                    const columnsCount = Math.max(1, Math.floor((stageWidth + gap) / (columnWidth + gap)));
+                    
+                    const columnHeights = Array(columnsCount).fill(0);
+
+                    bricks.forEach((brick) => {
+                        brick.style.position = 'absolute';
+                        brick.style.width = `${columnWidth}px`;
+                        
+                        const realHeight = brick.offsetHeight;
+
+                        let shortColumnIndex = 0;
+                        let minHeight = columnHeights[0];
+                        for (let i = 1; i < columnHeights.length; i++) {
+                            if (columnHeights[i] < minHeight) {
+                                minHeight = columnHeights[i];
+                                shortColumnIndex = i;
+                            }
+                        }
+
+                        const leftPos = shortColumnIndex * (columnWidth + gap);
+                        const topPos = columnHeights[shortColumnIndex];
+
+                        brick.style.transform = `translate(${leftPos}px, ${topPos}px)`;
+
+                        columnHeights[shortColumnIndex] += realHeight + gap;
+                    });
+
+                    const maxContainerHeight = Math.max(...columnHeights);
+                    container.style.minHeight = `${maxContainerHeight}px`;
+
+                    syntaxDisplay.textContent = `.gallery {\n  display: grid-lanes;\n  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));\n  gap: 1.5rem;\n}`;
+                } else {
+                    container.style.minHeight = '';
+
+                    if (mode === 'grid') {
+                        syntaxDisplay.textContent = `/* Fallback Architecture */\n.gallery {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));\n  align-items: start;\n  gap: 1.5rem;\n}`;
+                    } else if (mode === 'columns') {
+                        syntaxDisplay.textContent = `/* Column Workaround Flow */\n.gallery {\n  column-count: 3;\n  column-gap: 1.5rem;\n}\n.gallery-item {\n  break-inside: avoid;\n}`;
+                    }
+                }
+            }
+
+            selectEngine.addEventListener('change', runSimulation);
+            window.addEventListener('resize', runSimulation);
+            
+            window.addEventListener('load', runSimulation);
+            setTimeout(runSimulation, 100);
+        }());
+    </script>
+</body>
+</html>
