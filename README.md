@@ -19,3 +19,5 @@ The purpose of this site is to help me refine my advanced CSS skills, practice m
 - [Blend Modes](blend-modes.html)
 - [Unit 4 Assignment: Editorial Layout](grid-layouts/editorial.html) - Structural micro layout mapping zone components cleanly via responsive CSS Grid Named template areas.
 - [Unit 4 Assignment: Fluid Card Grid System](grid-layouts/cards.html) - Scalable matrix configuration leveraging auto-fit generation configurations and custom nested column container min() clamp structures.
+- [Container Query Component](./advanced/container-demo.html) - Context-aware interface cards altering their structural layout rules fluidly on the inline axis according to individual container limitations.
+- [Sticky Sidebar Navigation Module](./advanced/sticky-demo.html) - Fixed layout components tracking viewport scroll lines with detailed diagnostic notations handling the ancestor overflow visible override rule.
