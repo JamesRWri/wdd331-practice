@@ -1,68 +1,87 @@
-.articles-page header {
-    text-align: center;
-    padding: 3rem 1.5rem;
-    background-color: #ffffff;
-    border-bottom: 3px solid #000000;
-}
-
-.articles-page header h1 {
-    color: #003153;
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-}
-
-.articles-page .card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
-    gap: 2rem;
-    padding: 3rem 1.5rem;
+.portfolio-main-container {
     max-width: 1200px;
     margin: 0 auto;
+    padding: 2rem 1.5rem;
+    font-family: 'Montserrat', sans-serif;
 }
 
-.articles-page .card {
-    display: flex;
-    flex-direction: column;
-    background-color: #ffffff;
+.page-intro-header {
+    margin-bottom: 3rem;
+    border-bottom: 3px solid #000000;
+    padding-bottom: 1.5rem;
+}
+
+.page-intro-header h1 {
+    font-family: 'Lora', serif;
+    font-size: 2.5rem;
+    color: #000000;
+    margin: 0 0 0.5rem 0;
+}
+
+.card-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    grid-template-rows: auto auto auto;
+    align-items: stretch;
+}
+
+.portfolio-card {
+    background: #ffffff;
     border: 3px solid #000000;
     box-shadow: 6px 6px 0px #000000;
-}
-
-.articles-page .card div[aria-hidden="true"] {
-    height: 160px;
-    background-color: #1e4d2b; 
-    border-bottom: 3px solid #000000;
-}
-
-.articles-page .card > div:not([aria-hidden]) {
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
-    padding: 1.5rem;
+    gap: 1rem;
+    box-sizing: border-box;
 }
 
-.articles-page .card h2 {
-    font-size: 1.4rem;
-    color: #003153;
-    margin-bottom: 0.75rem;
+.card-title {
+    margin: 0;
+    font-family: 'Lora', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #000000;
 }
 
-.articles-page .card p {
-    font-size: 1rem;
+.card-body-text {
+    margin: 0;
+    font-size: 0.95rem;
     line-height: 1.5;
     color: #333333;
-    margin-bottom: 1.5rem;
 }
 
-.articles-page .card a {
+.card-footer {
     margin-top: auto;
-    align-self: flex-start;
-    color: #1e4d2b;
-    font-weight: 700;
-    text-decoration: none;
-    border-bottom: 2px solid transparent;
 }
 
-.articles-page .card a:hover {
-    border-bottom-color: #1e4d2b;
+.card-btn {
+    background: #081437;
+    color: #ffffff;
+    border: 3px solid #000000;
+    padding: 0.5rem 1rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    width: 100%;
+}
+
+
+@supports (grid-template-rows: subgrid) {
+    .card-grid-container {
+        grid-auto-rows: max-content;
+    }
+    
+    .portfolio-card {
+        grid-row: span 3;
+        display: grid;
+        grid-template-rows: subgrid;
+        row-gap: 0.75rem;
+    }
+    
+    .card-footer {
+        margin-top: 0;
+    }
 }
