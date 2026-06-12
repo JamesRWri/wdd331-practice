@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Container Query Context Demo</title>
+    <link rel="stylesheet" href="/dist/styles.css">
+    <link rel="stylesheet" href="container-demo.css">
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <header class="advanced-header">
+            <h1>Context-Aware Components</h1>
+            <p>The exact same component adapting structural layouts based entirely on its immediate wrapper width limits rather than the screen viewport boundaries.</p>
+        </header>
+
+        <div class="dashboard-layout-grid">
+            
+            <aside class="dashboard-sidebar-pane">
+                <h2 class="pane-label">Sidebar Container (Narrow Tracking Zone)</h2>
+                <div class="component-containment-wrapper">
+                    
+                    <div class="adaptive-product-card">
+                        <div class="card-media-box"></div>
+                        <div class="card-content-box">
+                            <h3>Responsive Design Asset</h3>
+                            <p>This component card lives inside a tight sidebar panel context. It automatically senses the restricted widths and stacks its elements into a standard vertical configuration to look neat.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </aside>
+
+            <main class="dashboard-main-pane">
+                <h2 class="pane-label">Main Content Container (Wide Tracking Zone)</h2>
+                <div class="component-containment-wrapper">
+                    
+                    <div class="adaptive-product-card">
+                        <div class="card-media-box"></div>
+                        <div class="card-content-box">
+                            <h3>Responsive Design Asset</h3>
+                            <p>This is the exact same component structure as the sidebar asset. However, because its outer wrapper container passes the width threshold parameters, the columns transform cleanly into a side-by-side row system without using global media queries.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+
+        </div>
+    </div>
+</body>
+</html>
