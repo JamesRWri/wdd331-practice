@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>User Media and Safe Area Insets Demonstration</title>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #fafafa;
+            color: #000000;
+            padding: 2rem 1.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            border-bottom: 3px solid #000000;
+            padding-bottom: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-family: 'Lora', serif;
+            font-size: 2.3rem;
+            margin: 0 0 0.5rem 0;
+        }
+
+        p {
+            line-height: 1.6;
+            color: #333333;
+        }
+
+        .phone-mock-container {
+            border: 12px solid #000000;
+            border-radius: 40px;
+            width: 360px;
+            height: 640px;
+            position: relative;
+            background: #ffffff;
+            overflow: hidden;
+            box-shadow: 8px 8px 0px #000000;
+            margin: 2rem auto 3rem auto;
+        }
+
+        .hardware-notch-overlay {
+            width: 150px;
+            height: 30px;
+            background: #000000;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            z-index: 100;
+        }
+
+        .mock-viewport {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sticky-nav-bar {
+            position: sticky;
+            top: 0;
+            background: #081437;
+            color: #ffffff;
+            border-bottom: 3px solid #000000;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 700;
+            z-index: 50;
+        }
+
+        .sticky-nav-bar.use-insets {
+            padding-top: calc(1rem + 25px);
+        }
+
+        .scrollable-body-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .interactive-card {
+            background: #ffffff;
+            border: 3px solid #000000;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .action-trigger-btn {
+            background: #8B9C7F;
+            color: #000000;
+            border: 3px solid #000000;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-align: center;
+            cursor: pointer;
+            box-sizing: border-box;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        .broken-card .action-trigger-btn {
+            display: none;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .broken-card:hover .action-trigger-btn {
+            display: inline-block;
+        }
+
+        .fixed-card .action-trigger-btn {
+            display: inline-block;
+        }
+
+        @media (hover: hover) {
+            .interactive-card {
+                transition: transform 0.2s ease;
+            }
+            .interactive-card:hover {
+                transform: translate(-2px, -2px);
+                box-shadow: 4px 4px 0px #000000;
+            }
+        }
+
+        @media (pointer: fine) {
+            .action-trigger-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (pointer: coarse) {
+            .fixed-card .action-trigger-btn {
+                padding: 0.75rem 1.2rem;
+                font-size: 1rem;
+                min-height: 44px;
+                min-width: 44px;
+            }
+        }
+
+        @media (prefers-contrast: more) {
+            body {
+                background-color: #ffffff;
+            }
+            p {
+                color: #000000;
+            }
+            .interactive-card {
+                border-width: 5px;
+            }
+            .action-trigger-btn {
+                background: #000000;
+                color: #ffffff;
+                border-width: 4px;
+            }
+        }
+
+        .hardware-controls-panel {
+            background: #ffffff;
+            border: 3px solid #000000;
+            box-shadow: 5px 5px 0px #000000;
+            padding: 1.5rem;
+            margin: 2rem auto;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .hardware-btn {
+            background: #081437;
+            color: #ffffff;
+            border: 3px solid #000000;
+            padding: 0.5rem 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .hardware-btn.active {
+            background: #8B9C7F;
+            color: #000000;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>User Media & Safe Area Sandbox</h1>
+        <p>This layout playground simulates mobile screen hardware boundaries and tests responsive device input capabilities. Emulate alternative pointer styles and contrast settings in your browser developer tools to view the media rule shifts layout live.</p>
+    </header>
+
+    <main>
+        <div class="hardware-controls-panel">
+            <button id="insetToggle" class="hardware-btn">Apply env() Insets</button>
+            <div id="statusLabel" style="font-weight: bold; text-align: center;">INSETS: DISABLED (UNSAFE)</div>
+        </div>
+
+        <div class="phone-mock-container">
+            <div class="hardware-notch-overlay"></div>
+            
+            <div class="mock-viewport">
+                <div id="stickyHeader" class="sticky-nav-bar">NAVIGATION CONSOLE</div>
+                
+                <div class="scrollable-body-content">
+                    <div class="interactive-card broken-card">
+                        <h3>Desktop Assumption Card</h3>
+                        <p>This panel hides its button block entirely behind a hover state. It also features tiny padding spaces that assume a fine desktop cursor precision model.</p>
+                        <button class="action-trigger-btn">Details</button>
+                    </div>
+
+                    <div class="interactive-card fixed-card">
+                        <h3>Fluid Input Card</h3>
+                        <p>This adaptive module remains permanently exposed for touch screens and automatically scales up the click field targets if a coarse pointer type is detected by the client window browser context.</p>
+                        <button class="action-trigger-btn">Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const insetToggle = document.getElementById('insetToggle');
+        const stickyHeader = document.getElementById('stickyHeader');
+        const statusLabel = document.getElementById('statusLabel');
+
+        insetToggle.addEventListener('click', () => {
+            const isActive = stickyHeader.classList.toggle('use-insets');
+            if (isActive) {
+                insetToggle.textContent = 'Clear Insets';
+                insetToggle.classList.add('active');
+                statusLabel.textContent = 'INSETS: ACTIVE (SAFE REGION)';
+                statusLabel.style.color = '#8B9C7F';
+            } else {
+                insetToggle.textContent = 'Apply env() Insets';
+                insetToggle.classList.remove('active');
+                statusLabel.textContent = 'INSETS: DISABLED (UNSAFE)';
+                statusLabel.style.color = '#000000';
+            }
+        });
+    </script>
+</body>
+</html>
