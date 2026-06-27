@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Resume & Contact Portal</title>
+    <style>
+        :root {
+            --brand-primary: #081437;
+            --brand-secondary: #8B9C7F;
+            --bg-light: #fafafa;
+            --text-dark: #000000;
+            --text-muted: #333333;
+            --border-clean: 3px solid #000000;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            padding: 3rem 2rem;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        header.site-header {
+            border-bottom: var(--border-clean);
+            padding-bottom: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .screen-nav {
+            margin-bottom: 2rem;
+        }
+
+        .screen-nav a {
+            color: var(--brand-primary);
+            font-weight: 700;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: 2px solid #000000;
+            padding: 0.4rem 0.8rem;
+            background: #ffffff;
+            box-shadow: 3px 3px 0px #000000;
+        }
+
+        h1 {
+            font-family: 'Lora', serif;
+            font-size: 2.8rem;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--brand-primary);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .resume-section {
+            background: #ffffff;
+            border: var(--border-clean);
+            box-shadow: 6px 6px 0px #000000;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .resume-section h2 {
+            font-family: 'Lora', serif;
+            font-size: 1.6rem;
+            margin: 0 0 1.5rem 0;
+            border-bottom: 2px solid #000000;
+            padding-bottom: 0.5rem;
+            color: var(--brand-primary);
+            print-color-adjust: exact;
+            -webkit-print-color-adjust: exact;
+        }
+
+        .entry {
+            margin-bottom: 1.5rem;
+            break-inside: avoid;
+        }
+
+        .entry-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .entry-title {
+            color: var(--text-dark);
+        }
+
+        .entry-date {
+            color: var(--brand-primary);
+        }
+
+        ul {
+            padding-left: 1.2rem;
+            margin: 0.5rem 0 0 0;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+            color: var(--text-muted);
+        }
+
+        .contact-form-container {
+            background: #ffffff;
+            border: var(--border-clean);
+            box-shadow: 6px 6px 0px #000000;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        .contact-form-container h2 {
+            font-family: 'Lora', serif;
+            font-size: 1.6rem;
+            margin: 0 0 1.5rem 0;
+            border-bottom: 2px solid #000000;
+            padding-bottom: 0.5rem;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            accent-color: var(--brand-secondary);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            font-family: inherit;
+            padding: 0.75rem;
+            border: 3px solid #000000;
+            font-size: 1rem;
+            background: #ffffff;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        textarea {
+            field-sizing: content;
+            min-height: 120px;
+            max-height: 400px;
+            resize: vertical;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-direction: row;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 1.25rem;
+            height: 1.25rem;
+            cursor: pointer;
+        }
+
+        .submit-btn {
+            background: var(--brand-primary);
+            color: #ffffff;
+            border: var(--border-clean);
+            padding: 0.75rem 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            align-self: flex-start;
+            box-shadow: 4px 4px 0px #000000;
+        }
+
+        .submit-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #000000;
+        }
+
+        @media print {
+            @page {
+                size: letter;
+                margin: 0.75in;
+            }
+
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+                padding: 0 !important;
+                font-size: 11pt !important;
+                font-family: 'Times New Roman', serif !important;
+            }
+
+            h1 {
+                font-size: 26pt !important;
+                margin-bottom: 2pt !important;
+            }
+
+            .subtitle {
+                font-size: 12pt !important;
+                color: #000000 !important;
+            }
+
+            .screen-nav,
+            .contact-form-container,
+            .submit-btn {
+                display: none !important;
+            }
+
+            .resume-section {
+                border: none !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+                margin-bottom: 20pt !important;
+            }
+
+            .resume-section h2 {
+                font-size: 14pt !important;
+                color: #000000 !important;
+                border-bottom: 1pt solid #000000 !important;
+                margin-bottom: 10pt !important;
+                page-break-after: avoid;
+            }
+
+            .entry {
+                margin-bottom: 12pt !important;
+                page-break-inside: avoid;
+            }
+
+            .entry-header {
+                font-weight: bold !important;
+            }
+
+            .entry-date {
+                color: #000000 !important;
+            }
+
+            li {
+                color: #000000 !important;
+                font-size: 11pt !important;
+            }
+
+            orphans {
+                widows: 3;
+                orphans: 3;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="screen-nav">
+        <a href="index.html">Back to Dashboard</a>
+    </nav>
+
+    <header class="site-header">
+        <h1>Professional CV</h1>
+        <div class="subtitle">Business Management Student &amp; Marketing Developer</div>
+    </header>
+
+    <main>
+        <section class="resume-section">
+            <h2>Professional Summary</h2>
+            <p>Results-driven professional combining a comprehensive business management and marketing background with hands-on technical web construction and layout infrastructure skills. Focused on structural design accuracy and user optimization protocols.</p>
+        </section>
+
+        <section class="resume-section">
+            <h2>Education</h2>
+            <div class="entry">
+                <div class="entry-header">
+                    <span class="entry-title">Bachelor of Science in Business Management (Marketing Emphasis)</span>
+                    <span class="entry-date">Graduation: Dec 2026</span>
+                </div>
+                <div>Brigham Young University-Idaho</div>
+                <ul>
+                    <li>Minor in Web Development and Design</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="resume-section">
+            <h2>Professional Experience</h2>
+            <div class="entry">
+                <div class="entry-header">
+                    <span class="entry-title">Web Developer</span>
+                    <span class="entry-date">2025 - Present</span>
+                </div>
+                <div>Incline Marketing</div>
+                <ul>
+                    <li>Construct and deploy responsive digital assets and campaign components using tailored CMS environments and style sheets.</li>
+                    <li>Audit structural stylesheets to ensure quick paint times, fluid mobile performance, and complete cross-platform rendering alignment.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="resume-section class-form-wrapper contact-form-container">
+            <h2>Inquire for Engagement</h2>
+            <form id="contactForm" action="#" method="POST">
+                <div class="form-group">
+                    <label for="userName">Full Designation</label>
+                    <input type="text" id="userName" name="userName" required placeholder="John Doe">
+                </div>
+
+                <div class="form-group">
+                    <label for="userEmail">Electronic Mail Coordinates</label>
+                    <input type="email" id="userEmail" name="userEmail" required placeholder="john@example.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="userMessage">Message Package</label>
+                    <textarea id="userMessage" name="userMessage" placeholder="Type your message details here..."></textarea>
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="marketingUpdates" name="marketingUpdates" value="true">
+                    <label for="marketingUpdates">Subscribe to project status milestones and updates</label>
+                </div>
+
+                <button type="submit" class="submit-btn">Send Dispatch</button>
+            </form>
+        </section>
+    </main>
+
+</body>
+</html>
