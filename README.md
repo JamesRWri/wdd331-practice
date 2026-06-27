@@ -27,3 +27,15 @@ The purpose of this site is to help me refine my advanced CSS skills, practice m
 * **Web Font Choice:** The site features **Lora** as a high-contrast serif typeface for all headings, paired with **Montserrat** as a clean system fallback stack for highly readable body copy blocks.
 * **Font Display Optimization:** Configured using the native `display=swap` parameter method, ensuring the browser immediately renders text using safe system fallbacks while the remote font downloads, eliminating invisible layout shifting delays.
 * **Fluid Scaling Scaling Range:** Built using a Major Third modular scale mapped into dynamic `clamp()` equations that scale font sizes fluidly from a minimum mobile screen width of 320px up to a maximum desktop layout boundary constraint of 1200px without utilizing media query breakpoints.
+
+## Unit 5: Print Architecture, Forms, and Token Audit
+
+### Project Overview
+This update adds a semantic CV/Resume page and an integrated contact form to the practice site. It implements a dedicated print stylesheet layout using media queries to optimize the content for paper and PDF engines, and includes a full performance audit of the global design token system.
+
+### Key Features Implemented
+
+* **Semantic CV Page:** Built using structured heading hierarchies, sections, and list markers styled with existing site typography.
+* **Print Stylesheet Configuration:** Implemented a `@media print` engine that strips away screen-only navigation, forces clean typography using point sizes (`pt`), surfaces anchor destinations, prevents split content blocks with `break-inside: avoid`, and maintains layout stability using `orphans` and `widows` controls.
+* **Accessible Contact Form:** Integrated an input form containing full explicit label matching via `for` and `id` attributes. Built with `accent-color` to brand native interactive elements, and used `field-sizing: content` with guardrails on the textarea to allow it to grow dynamically with user input.
+* **Design Token Cleanup:** Audited `variables.css` and `colors.css` to eliminate unused orphan custom properties, reconcile near-duplicate spacing tokens, and correct naming drift across design system files.
