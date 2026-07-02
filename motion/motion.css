@@ -1,0 +1,202 @@
+.actions {
+  display: flex;
+  gap: 1.5rem; 
+  margin-bottom: 2.5rem;
+  margin-top: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.site-header nav {
+  display: flex;
+  gap: 2rem; 
+  align-items: center;
+}
+
+.site-header nav a {
+  color: #4b5563; 
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-block;
+  transition: color 0.35s ease-out, transform 0.35s ease-out;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .site-header nav a:hover,
+  .site-header nav a:focus-visible {
+    color: #111111;
+    transform: translateY(-3px); 
+    transition: color 0.12s ease-in, transform 0.12s ease-in;
+  }
+}
+
+.nav-cta {
+  background-color: #0055cc; 
+  color: #ffffff !important;
+  border-radius: 6px;
+  padding: 0.75rem 1.5rem; 
+  transition: background-color 0.3s ease-out, transform 0.3s ease-out;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .nav-cta:hover,
+  .nav-cta:focus-visible {
+    background-color: #0033aa;
+    transform: scale(1.08) translateY(-2px);
+    transition: background-color 0.1s ease-in, transform 0.1s ease-in;
+  }
+}
+
+.btn {
+  padding: 0.85rem 1.75rem; 
+  font-weight: 600;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary {
+  background-color: #111111;
+  color: #ffffff;
+  transition: background-color 0.3s ease-out, transform 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn-primary:hover,
+  .btn-primary:focus-visible {
+    background-color: #333333;
+    transform: translateY(-4px); 
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25); 
+    transition: background-color 0.1s ease-in, transform 0.1s ease-in, box-shadow 0.1s ease-in;
+  }
+}
+
+.btn-secondary {
+  background-color: #e5e7eb;
+  color: #111111; 
+  border: 2px solid #d1d5db;
+  transition: background-color 0.3s ease-out, transform 0.3s ease-out, border-color 0.3s ease-out;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn-secondary:hover,
+  .btn-secondary:focus-visible {
+    background-color: #d1d5db;
+    border-color: #9ca3af;
+    transform: translateY(-3px);
+    transition: background-color 0.1s ease-in, transform 0.1s ease-in, border-color 0.1s ease-in;
+  }
+}
+
+.btn-ghost {
+  background: transparent;
+  color: #111111; 
+  border: 2px solid #111111; 
+  transition: background-color 0.25s ease-out, color 0.25s ease-out, transform 0.25s ease-out;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn-ghost:hover,
+  .btn-ghost:focus-visible {
+    background-color: #111111;
+    color: #ffffff; 
+    transform: translateY(-2px);
+    transition: background-color 0.1s ease-in, color 0.1s ease-in, transform 0.1s ease-in;
+  }
+}
+
+.card {
+  border: 2px solid #e5e7eb; 
+  border-radius: 12px;
+  padding: 2rem; 
+  background: #ffffff;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease-out; /* Pop easing curve */
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .card:hover,
+  .card:focus-within {
+    transform: translateY(-8px); 
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+    transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.15s ease-in;
+  }
+}
+
+.card-link {
+  display: inline-block;
+  color: #0055cc;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .card:hover .card-link,
+  .card-link:hover {
+    transform: translateX(8px); 
+    transition: transform 0.12s ease-in;
+  }
+}
+
+.status-badge {
+  background-color: #16a34a;
+  color: #ffffff;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-weight: 700;
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .status-badge {
+    animation-name: pulseLiveObvious;
+    animation-duration: 1.5s; 
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+  }
+}
+
+@keyframes pulseLiveObvious {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.15); 
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header nav a,
+  .nav-cta,
+  .btn-primary,
+  .btn-secondary,
+  .btn-ghost,
+  .card,
+  .card-link {
+    transform: none !important;
+    transition: color 0.15s linear, background-color 0.15s linear, border-color 0.15s linear, box-shadow 0.15s linear !important;
+  }
+
+  .site-header nav a:hover {
+    text-decoration: underline !important;
+  }
+
+  .card:hover {
+    border-color: #111111 !important;
+    box-shadow: 0 0 0 1px #111111 !important;
+  }
+
+  .status-badge {
+    animation: staticGlow 4s ease-in-out infinite alternate !important;
+  }
+}
+
+@keyframes staticGlow {
+  0% { opacity: 1; }
+  100% { opacity: 0.4; }
+}
