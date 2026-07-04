@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Transitions API Sandbox</title>
+    <style>
+        body { 
+            font-family: sans-serif; 
+            background-color: #fafafa; 
+            padding: 2rem; 
+            color: #000; 
+            margin: 0;
+        }
+        header { 
+            border-bottom: 3px solid #000; 
+            padding-bottom: 1rem; 
+            margin-bottom: 2rem; 
+        }
+        h1 { margin: 0 0 0.5rem 0; font-size: 2.25rem; }
+        h2 { margin: 0 0 1.5rem 0; font-size: 1.5rem; }
+        
+        .controls {
+            background: #fff;
+            border: 3px solid #000;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-weight: bold;
+        }
+        .support-badge {
+            padding: 0.25rem 0.5rem;
+            border: 1px solid #000;
+            font-size: 0.85rem;
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+        .support-badge.no-support {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .view-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .vehicle-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 1.5rem; 
+        }
+        .vehicle-card { 
+            background: #fff; 
+            border: 3px solid #000; 
+            box-shadow: 5px 5px 0px #000; 
+            padding: 1.25rem; 
+            display: flex; 
+            flex-direction: column; 
+            cursor: pointer;
+            transition: transform 0.1s ease;
+        }
+        .vehicle-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 7px 7px 0px #000;
+        }
+        .vehicle-title { font-size: 1.25rem; font-weight: bold; margin: 0 0 0.5rem 0; text-decoration: underline; }
+        .vehicle-price { font-size: 1.5rem; color: #081437; font-weight: bold; margin: 0.5rem 0; }
+        .tag { display: inline-block; padding: 0.25rem 0.5rem; border: 1px solid #000; font-size: 0.8rem; font-weight: bold; background: #eee; margin-right: 0.5rem; }
+
+        .detail-view {
+            background: #fff;
+            border: 3px solid #000;
+            box-shadow: 5px 5px 0px #000;
+            padding: 2.5rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .back-btn {
+            background: #eee;
+            border: 2px solid #000;
+            padding: 0.5rem 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+        .back-btn:hover { background: #ddd; }
+        .detail-main-title { font-size: 2rem; font-weight: bold; margin: 0 0 1rem 0; }
+        .detail-body { font-size: 1.1rem; line-height: 1.6; margin-top: 1.5rem; border-top: 1px solid #000; padding-top: 1rem; }
+
+        .slow-motion-active::view-transition-group(*) {
+            animation-duration: 2.5s !important;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            ::view-transition-group(*),
+            ::view-transition-old(*),
+            ::view-transition-new(*) {
+                animation-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Dealership Management System</h1>
+        <p>Active Model View Controller Architecture Preview Sandbox</p>
+    </header>
+
+    <main class="view-container">
+        <div class="controls">
+            <span id="api-status" class="support-badge">Checking API Support...</span>
+            <label style="cursor: pointer;">
+                <input type="checkbox" id="slow-mo-toggle"> 🧪 Enable 2.5s Slow Motion
+            </label>
+        </div>
+
+        <section id="list-view" class="vehicle-grid">
+            <div class="vehicle-card" onclick="navigateToDetail(this, 'ford')">
+                <div class="vehicle-title">2021 Ford F-150 Lariat</div>
+                <div><span class="tag">Trucks</span><span class="tag">34,000 miles</span></div>
+                <div class="vehicle-price">$42,500</div>
+            </div>
+            <div class="vehicle-card" onclick="navigateToDetail(this, 'jeep')">
+                <div class="vehicle-title">2020 Jeep Grand Cherokee</div>
+                <div><span class="tag">SUVs</span><span class="tag">29,000 miles</span></div>
+                <div class="vehicle-price">$31,500</div>
+            </div>
+        </section>
+
+        <section id="detail-view" class="detail-view" hidden>
+            <button class="back-btn" onclick="navigateToList()">&larr; Back to Main Lot Inventory</button>
+            <div id="detail-title" class="detail-main-title">Vehicle Title</div>
+            <div><span id="detail-tag-cat" class="tag">Category</span><span id="detail-tag-mile" class="tag">Miles</span></div>
+            <div id="detail-price" class="vehicle-price">$0</div>
+            <p id="detail-desc" class="detail-body">Extended luxury vehicle specifications and full client review data histories mock text container elements.</p>
+        </section>
+    </main>
+
+    <script>
+        const apiStatus = document.getElementById('api-status');
+        if (document.startViewTransition) {
+            apiStatus.textContent = "✨ View Transitions API Supported";
+            apiStatus.className = "support-badge";
+        } else {
+            apiStatus.textContent = "❌ API Not Supported - Using Instant Fallback";
+            apiStatus.className = "support-badge no-support";
+        }
+
+        const vehicleDb = {
+            ford: { title: "2021 Ford F-150 Lariat", cat: "Trucks", miles: "34,000 miles", price: "$42,500", desc: "Premium EcoBoost engine, clean leather trim history, structural towing configuration matrix fully integrated." },
+            jeep: { title: "2020 Jeep Grand Cherokee", cat: "SUVs", miles: "29,000 miles", price: "$31,500", desc: "Four-wheel drive capability model complete with adaptive active damping safety controls and terrain modes." }
+        };
+
+        const slowMoToggle = document.getElementById('slow-mo-toggle');
+        const listView = document.getElementById('list-view');
+        const detailView = document.getElementById('detail-view');
+
+        function navigateToDetail(cardElement, vehicleKey) {
+            const data = vehicleDb[vehicleKey];
+            
+            document.getElementById('detail-title').textContent = data.title;
+            document.getElementById('detail-tag-cat').textContent = data.cat;
+            document.getElementById('detail-tag-mile').textContent = data.miles;
+            document.getElementById('detail-price').textContent = data.price;
+            document.getElementById('detail-desc').textContent = data.desc;
+
+            const changeDomState = () => {
+                listView.hidden = true;
+                detailView.hidden = false;
+                cardElement.style.viewTransitionName = '';
+                document.getElementById('detail-view').style.viewTransitionName = '';
+            };
+
+            if (document.startViewTransition) {
+                document.documentElement.classList.toggle('slow-motion-active', slowMoToggle.checked);
+                
+                cardElement.style.viewTransitionName = 'active-card-morph';
+                document.getElementById('detail-view').style.viewTransitionName = 'active-card-morph';
+                
+                document.startViewTransition(changeDomState);
+            } else {
+                changeDomState();
+            }
+        }
+
+        function navigateToList() {
+            const changeDomState = () => {
+                detailView.hidden = true;
+                listView.hidden = false;
+            };
+
+            if (document.startViewTransition) {
+                document.documentElement.classList.toggle('slow-motion-active', slowMoToggle.checked);
+                document.startViewTransition(changeDomState);
+            } else {
+                changeDomState();
+            }
+        }
+    </script>
+</body>
+</html>
