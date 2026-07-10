@@ -1,0 +1,22 @@
+@layer components {
+    .icon {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        vertical-align: -0.125em; 
+        flex-shrink: 0;
+        transition: color var(--transition-base, 0.2s ease);
+    }
+
+    .icon--lg {
+        width: 1.5em;
+        height: 1.5em;
+        vertical-align: -0.25em;
+    }
+
+    .inline-flex-align {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-sm, 8px);
+    }
+}

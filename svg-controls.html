@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scroll Galleries and SVG Controls | James Wright</title>
+    <script src="js/theme-preference.js"></script>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,700;1,400&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dist/styles.css">
+    <style>
+        pre {
+            background-color: var(--color-surface);
+            border-left: 3px solid var(--color-accent, var(--color-secondary));
+            border-top: 1px solid var(--color-border);
+            border-right: 1px solid var(--color-border);
+            border-bottom: 1px solid var(--color-border);
+            padding: var(--space-md);
+            overflow-x: auto;
+            margin: var(--space-md) 0;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: var(--color-text, #fff);
+        }
+        code { 
+            font-family: monospace; 
+            color: var(--color-text, #fff);
+            background-color: var(--color-bg); 
+            padding: 2px 4px; 
+            border-radius: 2px; 
+        }
+        pre code { color: var(--color-text, #fff); background-color: transparent; padding: 0; }
+        ul, ol { margin-left: var(--space-lg); margin-bottom: var(--space-md); }
+        li { margin-bottom: var(--space-xs); }
+        
+        h1, h2, h3, h4, .project-card__title { color: var(--color-text, #fff); }
+        p, li, .project-card__desc { color: var(--color-text-body, var(--color-text, #fff)); }
+        
+        .assignment-grid { display: grid; gap: var(--space-md); grid-template-columns: 1fr; }
+        @media (min-width: 768px) { .assignment-grid { grid-template-columns: 1fr 1fr; } }
+
+        @media (prefers-reduced-motion: no-preference) {
+            html {
+                scroll-behavior: smooth;
+            }
+        }
+
+        .sandbox-container {
+            border: var(--border-thick);
+            padding: var(--space-lg);
+            margin-top: var(--space-xl);
+            background-color: var(--color-bg);
+            border-radius: var(--radius-md);
+            position: relative;
+        }
+
+        .gallery-wrapper {
+            position: relative;
+            margin: var(--space-md) 0;
+        }
+
+        .gallery {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: var(--space-lg);
+            padding: var(--space-md);
+            scroll-behavior: auto;
+            overscroll-behavior-x: contain;
+            scrollbar-width: thin;
+            scrollbar-color: var(--color-accent) var(--color-surface);
+        }
+
+        .gallery-card {
+            flex-shrink: 0;
+            width: 280px;
+            scroll-snap-align: start;
+            background-color: var(--color-surface);
+            border: var(--border-thin);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .gallery-card-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background-color: var(--color-border);
+        }
+
+        .gallery-card-content {
+            padding: var(--space-md);
+        }
+
+        .controls-wrapper {
+            background-color: var(--color-surface);
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-md);
+            border: 1px solid var(--color-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--space-md);
+        }
+
+        .control-group { display: flex; align-items: center; gap: var(--space-sm); }
+        .control-group label { font-weight: 600; font-size: 0.9rem; }
+
+        .gallery-navigation {
+            display: flex;
+            gap: var(--space-sm);
+        }
+
+        .gallery-btn {
+            background-color: var(--color-accent);
+            color: #fff;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            width: 44px;
+            height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color var(--transition-base), transform 0.1s;
+        }
+
+        .gallery-btn:hover {
+            background-color: var(--color-accent-hover);
+        }
+
+        .gallery-btn:active {
+            transform: scale(0.95);
+        }
+
+        .gallery-btn svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .anchor-test-zone {
+            background-color: var(--color-surface);
+            padding: var(--space-lg);
+            border-radius: var(--radius-md);
+            border: var(--border-thin);
+            margin-top: var(--space-xl);
+            text-align: center;
+        }
+
+        .anchor-link {
+            color: var(--color-link);
+            text-decoration: underline;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <header style="margin-bottom: var(--space-xl); border-bottom: var(--border-thick); padding-bottom: var(--space-md); color: var(--color-text, #fff);">
+        <h1>Scroll Galleries and SVG Controls</h1>
+        <p style="font-family: var(--font-heading); font-style: italic; color: var(--color-text-muted); font-size: 1.2rem;">
+            WDD 331R &bull; Advanced Structural Snapping & Interactive Accessibility Matrix
+        </p>
+        <a href="index.html" style="display: inline-block; margin-top: var(--space-sm); font-size: 0.9rem; color: var(--color-text, #fff); text-decoration: underline;">&larr; Back to Portal Home</a>
+        
+        <details class="theme-menu" style="margin-top: var(--space-md);">
+            <summary class="theme-control">
+                <span class="visually-hidden">Color scheme</span>
+            </summary>
+            <div class="theme-extra" role="group" aria-label="Choose color scheme">
+                <label class="theme-control theme-pick" data-theme-pick="light">
+                    <input name="theme-preference" type="radio" value="light">
+                    <span aria-hidden="true">&#9788;&#65039;</span>
+                    <span class="visually-hidden">Light</span>
+                </label>
+                <label class="theme-control theme-pick" data-theme-pick="system">
+                    <input name="theme-preference" type="radio" value="system">
+                    <span aria-hidden="true">&#9881;&#65039;</span>
+                    <span class="visually-hidden">System default</span>
+                </label>
+                <label class="theme-control theme-pick" data-theme-pick="dark">
+                    <input name="theme-preference" type="radio" value="dark">
+                    <span aria-hidden="true">&#127766;</span>
+                    <span class="visually-hidden">Dark</span>
+                </label>
+            </div>
+        </details>
+    </header>
+
+    <main>
+        <p id="top-anchor" class="project-card__desc">Jump vectors tracking interactive parameters below.</p>
+
+        <div class="assignment-grid">
+            <section class="project-card">
+                <div>
+                    <h2 class="project-card__title">Scroll Snap Basics</h2>
+                    <p class="project-card__desc">
+                        A smooth native gallery is driven by dual structural layout targets. Setting <code>scroll-snap-type: x mandatory</code> on the sliding axis container forces coordinates to lock into clean, predictable breakpoints immediately when tracking decelerations.
+                    </p>
+                    <p class="project-card__desc">
+                        Meanwhile, child objects declare <code>scroll-snap-align: start</code>, framing their forward edge neatly against the viewport track limits. The choice of <code>mandatory</code> ensures structural calculations always lock, preventing frustrating mid-way breaks.
+                    </p>
+                </div>
+            </section>
+
+            <section class="project-card">
+                <div>
+                    <h2 class="project-card__title">Button vs. Link Semantics</h2>
+                    <p class="project-card__desc">
+                        Clear separation of behavioral architecture protects contextual interactions. If an activation pushes state coordinates to a clean unique URL boundary, it uses an anchor element (<code>&lt;a href&gt;</code>). If execution fires localized code logic modifications, a <code>&lt;button&gt;</code> is explicitly mandated.
+                    </p>
+                    <p class="project-card__desc">
+                        Because gallery nav triggers a dynamic layout change rather than external routing transitions, using buttons ensures screen readers properly communicate element capabilities down to user agents.
+                    </p>
+                </div>
+            </section>
+        </div>
+
+        <section class="sandbox-container">
+            <h2>Interactive Scroll Gallery Demo</h2>
+            <p class="project-card__desc" style="margin-bottom: var(--space-md);">
+                Use the control panel below to trigger simulated accessibility preferences. Tab through the navigation elements or execute clicks to witness the programmatic layout translations.
+            </p>
+
+            <div class="controls-wrapper">
+                <div class="control-group">
+                    <input type="checkbox" id="motion-toggle">
+                    <label style="cursor:pointer;" for="motion-toggle">Emulate <code>prefers-reduced-motion: reduce</code></label>
+                </div>
+
+                <div class="gallery-navigation">
+                    <button type="button" class="gallery-btn" id="prev-btn" aria-label="Previous">
+                        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 18l-6-6 6-6"></path>
+                        </svg>
+                    </button>
+                    <button type="button" class="gallery-btn" id="next-btn" aria-label="Next">
+                        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18l6-6-6-6"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="gallery-wrapper">
+                <div id="scroll-target" class="gallery">
+                    <div class="gallery-card">
+                        <img class="gallery-card-img" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80" alt="Sunny clear beach shore asset">
+                        <div class="gallery-card-content">
+                            <h3>Card 01</h3>
+                            <p>Landscape study track detailing dynamic asset bounds.</p>
+                        </div>
+                    </div>
+                    <div class="gallery-card">
+                        <img class="gallery-card-img" src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=400&q=80" alt="Desk configuration workspace styling">
+                        <div class="gallery-card-content">
+                            <h3>Card 02</h3>
+                            <p>Editorial layout parameters mapping fluid grids.</p>
+                        </div>
+                    </div>
+                    <div class="gallery-card">
+                        <img class="gallery-card-img" src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&q=80" alt="Retail arrangement architectural display">
+                        <div class="gallery-card-content">
+                            <h3>Card 03</h3>
+                            <p>Product detail documentation evaluating micro-spacing metrics.</p>
+                        </div>
+                    </div>
+                    <div class="gallery-card">
+                        <img class="gallery-card-img" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&q=80" alt="Workspace execution meeting frames">
+                        <div class="gallery-card-content">
+                            <h3>Card 04</h3>
+                            <p>Team portrait configuration documenting structural scale variables.</p>
+                        </div>
+                    </div>
+                    <div class="gallery-card">
+                        <img class="gallery-card-img" src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=400&q=80" alt="Conference environment stage asset">
+                        <div class="gallery-card-content">
+                            <h3>Card 05</h3>
+                            <p>Event recap layout measuring performance visibility indices.</p>
+                        </div>
+                    </div>
+                    <div class="gallery-card">
+                        <img class="gallery-card-img" src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&q=80" alt="Production setup rigging layout">
+                        <div class="gallery-card-content">
+                            <h3>Card 06</h3>
+                            <p>Behind the scenes production track monitoring alignment assets.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="assignment-grid" style="margin-top: var(--space-xl);">
+            <section class="project-card">
+                <div>
+                    <h2 class="project-card__title">Accessible SVG Architecture</h2>
+                    <p class="project-card__desc">
+                        When inline iconography handles internal layouts inside native buttons, tracking configuration vectors requires explicit aria sanitization. Passing <code>aria-hidden="true"</code> strips visual data fields cleanly out of the tree.
+                    </p>
+                    <p class="project-card__desc">
+                        Declaring <code>focusable="false"</code> resolves legacy IE keyboard parsing quirks, while clean explicit label routing falls strictly to <code>aria-label</code> controls configured on the wrapper buttons.
+                    </p>
+                </div>
+            </section>
+
+            <section class="project-card">
+                <div>
+                    <h2 class="project-card__title">Overscroll & Chaining Isolation</h2>
+                    <p class="project-card__desc">
+                        Scroll chaining forces nested layout parents to take over progression when structural bounds reach maximum extremes. Declaring <code>overscroll-behavior-x: contain</code> locks tracking boundaries strictly to the active context grid.
+                    </p>
+                    <p class="project-card__desc">
+                        By trapping movement vectors locally on the horizontal layout plain, users avoid jarring secondary document shifts when dragging components or handling trackpad translations down to minimal limits.
+                    </p>
+                </div>
+            </section>
+        </div>
+
+        <section id="demo-anchor-target" class="anchor-test-zone">
+            <h2>Anchor Target Verification Block</h2>
+            <p class="project-card__desc">You jumped smoothly down to this anchor layout container using pure CSS page-level configurations.</p>
+            <a href="#top-anchor" class="anchor-link">&uarr; Smooth Scroll Back to Top Anchor Location</a>
+        </section>
+
+        <section style="margin-top: var(--space-xl); padding: var(--space-lg); border: var(--border-thick);">
+            <h2>Teaching Video Checklist Criteria</h2>
+            <ol class="project-card__desc" style="line-height: 1.6;">
+                <li><strong>Semantic Button Strategy:</strong> Detail structural behavioral variances between navigation pointers and action listeners. Demonstrate clean DevTools computed accessibility profiles.</li>
+                <li><strong>Programmatic Width Extraction:</strong> Explain how calculating <code>offsetWidth</code> plus the parsed runtime layout <code>gap</code> vector ensures accurate layout scaling offsets across devices.</li>
+                <li><strong>Boundary Lock Routine:</strong> Simulate scrolling extremes inside nested interfaces. Contrast raw inheritance leakage with locked parameters via <code>overscroll-behavior: contain</code> tracking.</li>
+                <li><strong>Motion Reduction Profiling:</strong> Toggle system preference layers inside your development console environment to demonstrate how matching handlers bypass animation frames smoothly.</li>
+            </ol>
+        </section>
+    </main>
+
+    <footer style="margin-top: var(--space-xl); padding-top: var(--space-md); border-top: var(--border-thin); font-size: 0.85rem; color: var(--color-text-muted);">
+        <p>&copy; 2026 James Wright &bull; Styled via shared token system layers.</p>
+        <p style="margin-top: 5px;"><a href="#demo-anchor-target" class="anchor-link">Test Scroll Jump Downward &rarr;</a></p>
+    </footer>
+
+    <script>
+        const gallery = document.getElementById('scroll-target');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const motionToggle = document.getElementById('motion-toggle');
+
+        function calculateScrollOffset() {
+            const initialCard = gallery.querySelector('.gallery-card');
+            if (!initialCard) return 300; 
+            
+            const cardWidth = initialCard.offsetWidth;
+            const computedStyle = window.getComputedStyle(gallery);
+            const gapValue = parseInt(computedStyle.gap) || 0;
+            
+            return cardWidth + gapValue;
+        }
+
+        function checkReducedMotionPreference() {
+            if (motionToggle.checked) return true;
+            return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        }
+
+        prevBtn.addEventListener('click', () => {
+            const shiftDistance = calculateScrollOffset();
+            const absoluteReduced = checkReducedMotionPreference();
+            
+            gallery.scrollBy({
+                left: -shiftDistance,
+                behavior: absoluteReduced ? 'instant' : 'smooth'
+            });
+        });
+
+        nextBtn.addEventListener('click', () => {
+            const shiftDistance = calculateScrollOffset();
+            const absoluteReduced = checkReducedMotionPreference();
+            
+            gallery.scrollBy({
+                left: shiftDistance,
+                behavior: absoluteReduced ? 'instant' : 'smooth'
+            });
+        });
+
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+            }, 150);
+        });
+    </script>
+</body>
+</html>
