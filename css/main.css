@@ -9,3 +9,4 @@
 @import "utilities/utilities.css";
 @import url('components/theme-toggle.css') layer(components);
 @import "components/effects.css";
+@import "components/icons.css"
