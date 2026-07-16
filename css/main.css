@@ -1,12 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Montserrat:wght@400;700&display=swap');
-@layer tokens, base, layout, components, utilities;
-
 @import "tokens/colors.css";
 @import "tokens/variables.css";
 @import "base/reset.css";
 @import "base/elements.css";
 @import "components/cards.css";
 @import "utilities/utilities.css";
-@import url('components/theme-toggle.css') layer(components);
+@import "components/theme-toggle.css";
 @import "components/effects.css";
-@import "components/icons.css"
+@import "components/icons.css";
+
+@layer tokens, base, layout, components, utilities;

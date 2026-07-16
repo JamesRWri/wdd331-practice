@@ -6,6 +6,25 @@ body {
     background-color: #ffffff;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    padding-left: var(--space-md, 1rem);
+    padding-right: var(--space-md, 1rem);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+header, 
+main, 
+footer {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+header {
+    padding-top: var(--space-md, 1rem);
+    padding-bottom: var(--space-md, 1rem);
+    margin-bottom: var(--space-xl, 2.5rem);
+    border-bottom: var(--border-thin, 1px solid #111111);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -44,4 +63,13 @@ small, .caption-text {
     font-size: var(--font-size-caption);
     line-height: var(--line-height-tight);
     color: #555555;
+}
+
+.dark body {
+    background-color: var(--color-bg-dark, #0f172a);
+    color: var(--color-text-dark, #f8fafc);         
+}
+
+.dark header {
+    border-bottom-color: var(--color-border-dark, #475569) !important;
 }
